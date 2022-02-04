@@ -1,0 +1,10 @@
+(** @canonical Dune__exe.DuneRule *)
+module DuneRule = Dune__exe__DuneRule
+
+
+(** @canonical Dune__exe.PrintSExp *)
+module PrintSExp = Dune__exe__PrintSExp
+
+
+(** @canonical Dune__exe.Test *)
+module Test = Dune__exe__Test

@@ -1,0 +1,203 @@
+location Characters -1--1:
+<dummy loc>
+
+Adding magic : unif in env.evar.
+unification for pattern annotationTrying to unify 
+unif
+and
+all #. #
+add unification : unif <- all #. #
+unifications =  (unif <== all #. #)
+substitution : all #. # became all #. #
+Successfully unified 
+unif
+and
+all #. #
+into :
+all #. #.
+substitution : all #. # became all #. #
+type_exp_func : magic type to unif1
+Trying to unify 
+all #. #
+and
+unif1
+add unification : unif1 <- all #. #
+unifications =  (unif <== all #. #) (unif1 <== all #. #)
+substitution : all #. # became all #. #
+Successfully unified 
+all #. #
+and
+unif1
+into :
+all #. #.
+substitution : all #. # became all #. #
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : unif became all #. #
+exp typing : magic
+- exp :
+magic
+- has type :
+all #. #
+Trying to unify 
+all #. #
+and
+all #. #
+substitution : # became #
+Subst : # became #
+Successfully unified 
+all #. #
+and
+all #. #
+into :
+all #. #.
+substitution : all #. # became all #. #
+Adding magic : all #. # in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all #. # became all #. #
+adding magic : all #. # : all #. #
+location File "test.fw", line 1, characters 8-9:
+f
+
+Adding f : unif2 in env.evar.
+type_exp_func : let a = f 1 0 in f type to unif3
+Trying to unify 
+unif2
+and
+unif3
+add unification : unif2 <- unif3
+unifications =  (unif2 <== unif3)
+substitution : unif3 became unif3
+Successfully unified 
+unif2
+and
+unif3
+into :
+unif3.
+substitution : unif3 became unif3
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : unif2 became unif3
+substitution : all #. # became all #. #
+exp typing : let a = f 1 0 in f
+exp typing : f 1 0
+exp typing : f
+- exp :
+f
+- has type :
+unif3
+applying unif3 to 1
+exp typing : 1
+- exp :
+1
+- has type :
+int
+unification for exp func appl. function is : f, arg is 1
+type of function is :
+unif3
+and type of argument is :
+int
+Trying to unify 
+unif3
+and
+int -> unif5
+add unification : unif3 <- int -> unif5
+unifications =  (unif2 <== unif3) (unif3 <== int -> unif5)
+substitution : int -> unif5 became int -> unif5
+Successfully unified 
+unif3
+and
+int -> unif5
+into :
+int -> unif5.
+substitution : int -> unif5 became int -> unif5
+applying unif5 to 0
+exp typing : 0
+- exp :
+0
+- has type :
+int
+unification for exp func appl. function is : f, arg is 0
+type of function is :
+unif5
+and type of argument is :
+int
+Trying to unify 
+unif5
+and
+int -> unif6
+add unification : unif5 <- int -> unif6
+unifications =  (unif2 <== unif3) (unif3 <== int -> unif5) (unif5 <== int -> unif6)
+substitution : int -> unif6 became int -> unif6
+Successfully unified 
+unif5
+and
+int -> unif6
+into :
+int -> unif6.
+substitution : int -> unif6 became int -> unif6
+- exp :
+f 1 0
+- has type :
+unif6
+Trying to unify 
+unif4
+and
+unif6
+add unification : unif4 <- unif6
+unifications =  (unif2 <== unif3) (unif3 <== int -> unif5) (unif4 <== unif6) (unif5 <== int -> unif6)
+substitution : unif6 became unif6
+Successfully unified 
+unif4
+and
+unif6
+into :
+unif6.
+substitution : unif6 became unif6
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : unif3 became int -> unif5
+substitution : all #. # became all #. #
+Adding a : unif6 in env.evar.
+exp typing : f
+- exp :
+f
+- has type :
+int -> unif5
+- exp :
+let a = f 1 0 in f
+- has type :
+int -> unif5
+Trying to unify 
+int -> unif5
+and
+unif2
+Successfully unified 
+int -> unif5
+and
+unif2
+into :
+int -> unif5.
+substitution : int -> unif5 became int -> int -> unif6
+Adding f : int -> int -> unif6 in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : int -> int -> unif6 became int -> int -> unif6
+substitution : all #. # became all #. #
+adding f : int -> int -> unif6

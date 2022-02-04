@@ -1,0 +1,10 @@
+type one = int
+type two = int
+val x : one : int
+val f : int -> int
+val y : two : int
+val g : int -> int
+val fx : int
+val fy : int
+val gx : int
+val gy : int

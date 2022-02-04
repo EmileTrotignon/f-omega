@@ -1,0 +1,336 @@
+location Characters -1--1:
+<dummy loc>
+
+Adding magic : unif in env.evar.
+unification for pattern annotationTrying to unify 
+unif
+and
+all #. #
+add unification : unif <- all #. #
+unifications =  (unif <== all #. #)
+substitution : all #. # became all #. #
+Successfully unified 
+unif
+and
+all #. #
+into :
+all #. #.
+type_exp_func : magic type to unif1
+Trying to unify 
+all #. #
+and
+unif1
+add unification : unif1 <- all #. #
+unifications =  (unif <== all #. #) (unif1 <== all #. #)
+substitution : all #. # became all #. #
+Successfully unified 
+all #. #
+and
+unif1
+into :
+all #. #.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : unif became all #. #
+exp typing : magic
+- exp :
+magic
+- has type :
+all #. #
+Trying to unify 
+all #. #
+and
+all #. #
+substitution : # became #
+Subst : # became #
+Successfully unified 
+all #. #
+and
+all #. #
+into :
+all #. #.
+Adding magic : all #. # in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all #. # became all #. #
+adding magic : all #. # : all #. #
+location File "./syntax_T3.fw", line 1, characters 4-5:
+_
+
+type_exp_func : fun (x : all F :: Type -> Type. int) => 1 type to unif4 -> unif3
+Trying to unify 
+unif2
+and
+unif4 -> unif3
+add unification : unif2 <- unif4 -> unif3
+unifications =  (unif2 <== unif4 -> unif3)
+substitution : unif4 -> unif3 became unif4 -> unif3
+Successfully unified 
+unif2
+and
+unif4 -> unif3
+into :
+unif4 -> unif3.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all #. # became all #. #
+exp typing : fun (x : all F :: Type -> Type. int) => 1
+unification for pattern annotationTrying to unify 
+unif5
+and
+all F :: Type -> Type. int
+add unification : unif5 <- all F :: Type -> Type. int
+unifications =  (unif2 <== unif4 -> unif3) (unif5 <== all F :: Type -> Type. int)
+substitution : all F :: Type -> Type. int became all F :: Type -> Type. int
+Successfully unified 
+unif5
+and
+all F :: Type -> Type. int
+into :
+all F :: Type -> Type. int.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all #. # became all #. #
+Adding x : all F :: Type -> Type. int in env.evar.
+exp typing : 1
+- exp :
+1
+- has type :
+int
+- exp :
+fun (x : all F :: Type -> Type. int) => 1
+- has type :
+(all F :: Type -> Type. int) -> int
+Trying to unify 
+(all F :: Type -> Type. int) -> int
+and
+unif2
+add unification : unif4 <- all F :: Type -> Type. int
+unifications =  (unif2 <== unif4 -> unif3) (unif4 <== all F :: Type -> Type. int)
+substitution : all F :: Type -> Type. int became all F :: Type -> Type. int
+add unification : unif3 <- int
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int)
+substitution : int became int
+Successfully unified 
+(all F :: Type -> Type. int) -> int
+and
+unif2
+into :
+(all F :: Type -> Type. int) -> int.
+Adding _ : (all F :: Type -> Type. int) -> int in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : (all F :: Type -> Type. int) -> int became (all F :: Type -> Type. int) -> int
+substitution : all #. # became all #. #
+adding _ : (all F :: Type -> Type. int) -> int
+location File "./syntax_T3.fw", line 2, characters 4-5:
+_
+
+type_exp_func : fun (x : all F :: Type -> Type. int) => 1 type to unif8 -> unif7
+Trying to unify 
+unif6
+and
+unif8 -> unif7
+add unification : unif6 <- unif8 -> unif7
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7)
+substitution : unif8 -> unif7 became unif8 -> unif7
+Successfully unified 
+unif6
+and
+unif8 -> unif7
+into :
+unif8 -> unif7.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : (all F :: Type -> Type. int) -> int became (all F :: Type -> Type. int) -> int
+substitution : all #. # became all #. #
+exp typing : fun (x : all F :: Type -> Type. int) => 1
+unification for pattern annotationTrying to unify 
+unif9
+and
+all F :: Type -> Type. int
+add unification : unif9 <- all F :: Type -> Type. int
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7) (unif9 <== all F :: Type -> Type. int)
+substitution : all F :: Type -> Type. int became all F :: Type -> Type. int
+Successfully unified 
+unif9
+and
+all F :: Type -> Type. int
+into :
+all F :: Type -> Type. int.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : (all F :: Type -> Type. int) -> int became (all F :: Type -> Type. int) -> int
+substitution : all #. # became all #. #
+Adding x : all F :: Type -> Type. int in env.evar.
+exp typing : 1
+- exp :
+1
+- has type :
+int
+- exp :
+fun (x : all F :: Type -> Type. int) => 1
+- has type :
+(all F :: Type -> Type. int) -> int
+Trying to unify 
+(all F :: Type -> Type. int) -> int
+and
+unif6
+add unification : unif8 <- all F :: Type -> Type. int
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7) (unif8 <== all F :: Type -> Type. int)
+substitution : all F :: Type -> Type. int became all F :: Type -> Type. int
+add unification : unif7 <- int
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7) (unif7 <== int) (unif8 <== all F :: Type -> Type. int)
+substitution : int became int
+Successfully unified 
+(all F :: Type -> Type. int) -> int
+and
+unif6
+into :
+(all F :: Type -> Type. int) -> int.
+Adding _ : (all F :: Type -> Type. int) -> int in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : (all F :: Type -> Type. int) -> int became (all F :: Type -> Type. int) -> int
+substitution : all #. # became all #. #
+adding _ : (all F :: Type -> Type. int) -> int
+location File "./syntax_T3.fw", line 4, characters 4-5:
+_
+
+type_exp_func : fun [F :: Type -> Type] => 1 type to all F :: Type -> Type. unif11
+Trying to unify 
+unif10
+and
+all F :: Type -> Type. unif11
+add unification : unif10 <- all F :: Type -> Type. unif11
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7) (unif7 <== int) (unif8 <== all F :: Type -> Type. int) (unif10 <== all F :: Type -> Type. unif11)
+substitution : all F :: Type -> Type. unif11 became all F :: Type -> Type. unif11
+Successfully unified 
+unif10
+and
+all F :: Type -> Type. unif11
+into :
+all F :: Type -> Type. unif11.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : (all F :: Type -> Type. int) -> int became (all F :: Type -> Type. int) -> int
+substitution : all #. # became all #. #
+exp typing : fun [F :: Type -> Type] => 1
+exp typing : 1
+- exp :
+1
+- has type :
+int
+- exp :
+fun [F :: Type -> Type] => 1
+- has type :
+all F :: Type -> Type. int
+Trying to unify 
+all F :: Type -> Type. int
+and
+unif10
+substitution : unif11 became unif11
+Subst : unif11 became unif11
+add unification : unif11 <- int
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7) (unif7 <== int) (unif8 <== all F :: Type -> Type. int) (unif10 <== all F :: Type -> Type. unif11) (unif11 <== int)
+substitution : int became int
+Successfully unified 
+all F :: Type -> Type. int
+and
+unif10
+into :
+all F :: Type -> Type. int.
+Adding _ : all F :: Type -> Type. int in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all F :: Type -> Type. int became all F :: Type -> Type. int
+substitution : all #. # became all #. #
+adding _ : all F :: Type -> Type. int
+location File "./syntax_T3.fw", line 5, characters 4-5:
+_
+
+type_exp_func : fun [F :: Type -> Type] => 1 type to all F :: Type -> Type. unif13
+Trying to unify 
+unif12
+and
+all F :: Type -> Type. unif13
+add unification : unif12 <- all F :: Type -> Type. unif13
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7) (unif7 <== int) (unif8 <== all F :: Type -> Type. int) (unif10 <== all F :: Type -> Type. unif11) (unif11 <== int) (unif12 <== all F :: Type -> Type. unif13)
+substitution : all F :: Type -> Type. unif13 became all F :: Type -> Type. unif13
+Successfully unified 
+unif12
+and
+all F :: Type -> Type. unif13
+into :
+all F :: Type -> Type. unif13.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all F :: Type -> Type. int became all F :: Type -> Type. int
+substitution : all #. # became all #. #
+exp typing : fun [F :: Type -> Type] => 1
+exp typing : 1
+- exp :
+1
+- has type :
+int
+- exp :
+fun [F :: Type -> Type] => 1
+- has type :
+all F :: Type -> Type. int
+Trying to unify 
+all F :: Type -> Type. int
+and
+unif12
+substitution : unif13 became unif13
+Subst : unif13 became unif13
+add unification : unif13 <- int
+unifications =  (unif2 <== unif4 -> unif3) (unif3 <== int) (unif4 <== all F :: Type -> Type. int) (unif6 <== unif8 -> unif7) (unif7 <== int) (unif8 <== all F :: Type -> Type. int) (unif10 <== all F :: Type -> Type. unif11) (unif11 <== int) (unif12 <== all F :: Type -> Type. unif13) (unif13 <== int)
+substitution : int became int
+Successfully unified 
+all F :: Type -> Type. int
+and
+unif12
+into :
+all F :: Type -> Type. int.
+Adding _ : all F :: Type -> Type. int in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all F :: Type -> Type. int became all F :: Type -> Type. int
+substitution : all #. # became all #. #
+adding _ : all F :: Type -> Type. int

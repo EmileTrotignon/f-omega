@@ -1,0 +1,6 @@
+File "./fail_escaping_lam_T4.fw", line 8, characters 27-56:
+
+Typing error: mistmatch between: 
+Actual type:     int
+Expected type:   (lam a. a) int
+Expected failure is ok!

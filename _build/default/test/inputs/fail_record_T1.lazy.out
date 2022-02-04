@@ -1,0 +1,6 @@
+File "./fail_record_T1.fw", line 3, characters 0-41:
+
+Typing error: mistmatch between: 
+Actual type:     {a : int; b : unit}
+Expected type:   {a : int}
+Expected failure is ok!

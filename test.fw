@@ -1,0 +1,3 @@
+let rec f =
+    let a = f 1 0 in
+    f

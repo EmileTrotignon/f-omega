@@ -1,0 +1,115 @@
+type token =
+    VAL
+  | TYPE
+  | TTYPE
+  | STRING of string
+  | STAR
+  | SEMI
+  | RPAREN
+  | REC
+  | RBRACKET
+  | RBRACE
+  | RANGLE
+  | OPTION
+  | LPAREN
+  | LIDENT of string
+  | LET
+  | LBRACKET
+  | LBRACE
+  | LANGLE
+  | LAMBDA
+  | INT of int
+  | INCLUDE
+  | IN
+  | FUN
+  | EXI
+  | EQUAL
+  | EOF
+  | DOUBLEARROW
+  | DOT
+  | DOLAR
+  | COMMA
+  | COLONCOLON
+  | COLON
+  | CIDENT of string
+  | AS
+  | ARROW
+  | ALL
+val error : string -> unit Syntax.loc -> 'a
+val unclosed :
+  string ->
+  Lexing.position ->
+  Lexing.position ->
+  string -> string -> Lexing.position -> Lexing.position -> 'a
+val menhir_begin_marker : int
+val xv_var : string
+val xv_typed_decl : Syntax.svar Syntax.typed_decl_
+val xv_type_lam : Syntax.styp
+val xv_typ_prod : Syntax.styp
+val xv_typ_field : string * Syntax.styp
+val xv_typ_atom : Syntax.styp
+val xv_typ_arr : Syntax.styp
+val xv_typ_app : Syntax.styp
+val xv_typ_ : Syntax.styp_loc
+val xv_typ : Syntax.styp
+val xv_tvar : Syntax.svar
+val xv_tbind : Syntax.svar * Syntax.kind
+val xv_separated_nonempty_list_STAR_typ_app_ : Syntax.styp list
+val xv_separated_nonempty_list_COMMA_l_pat_annot__ : Syntax.pat list
+val xv_separated_nonempty_list_COMMA_l_exp_app__ : Syntax.exp list
+val xv_separated_list_mintwo_STAR_typ_app_ : Syntax.styp list
+val xv_separated_list_mintwo_COMMA_l_pat_annot__ : Syntax.pat list
+val xv_separated_list_mintwo_COMMA_l_exp_app__ : Syntax.exp list
+val xv_record_typ_field_ : (string * Syntax.styp) list
+val xv_record_exp_field_ : (string * Syntax.exp) list
+val xv_program : Syntax.directive list * Syntax.program
+val xv_pat_typ : Syntax.pat_
+val xv_pat_atom : Syntax.pat_
+val xv_pat_annot : Syntax.pat_
+val xv_pat : Syntax.pat_
+val xv_paren_typ_ : Syntax.styp
+val xv_paren_pat_ : Syntax.pat_
+val xv_paren_kind_ : Syntax.kind
+val xv_paren_exp_ : Syntax.exp_
+val xv_nonempty_list_exp_arg_ :
+  (Syntax.styp_loc, Syntax.exp) Syntax.typorexp list
+val xv_nonempty_list_binding_ : Syntax.binding list
+val xv_list_typed_decl_ : Syntax.svar Syntax.typed_decl_ list
+val xv_list_l_decl__ : Syntax.program
+val xv_let_fun : Syntax.exp_
+val xv_lerror : unit Syntax.loc
+val xv_lab : string
+val xv_l_type_lam_ : Syntax.styp_loc
+val xv_l_typ_ : Syntax.styp_loc
+val xv_l_pat_typ_ : Syntax.pat
+val xv_l_pat_atom_ : Syntax.pat
+val xv_l_pat_annot_ : Syntax.pat
+val xv_l_pat_ : Syntax.pat
+val xv_l_let_fun_ : Syntax.exp
+val xv_l_exp_atom_ : Syntax.exp
+val xv_l_exp_app_ : Syntax.exp
+val xv_l_exp_ : Syntax.exp
+val xv_l_error_ : unit Syntax.loc
+val xv_l_decl_ : Syntax.decl
+val xv_kind_option : Syntax.kind
+val xv_kind_atom : Syntax.kind
+val xv_kind : Syntax.kind
+val xv_interface : Syntax.svar Syntax.typed_decl_ list
+val xv_fun_bindings : Syntax.binding list
+val xv_exp_prod : Syntax.exp_
+val xv_exp_field : string * Syntax.exp
+val xv_exp_atom : Syntax.exp_
+val xv_exp_arg : (Syntax.styp_loc, Syntax.exp) Syntax.typorexp
+val xv_exp_app : Syntax.exp_
+val xv_exp_abs : Syntax.exp_
+val xv_exp_ : Syntax.exp
+val xv_exp : Syntax.exp_
+val xv_evar : Syntax.evar
+val xv_directives : Syntax.directive list
+val xv_decl_ : Syntax.decl
+val xv_decl : Syntax.decl_
+val xv_brace_record_typ_field__ : (string * Syntax.styp) list
+val xv_brace_record_exp_field__ : (string * Syntax.exp) list
+val xv_boption_REC_ : bool
+val xv_binding : Syntax.binding
+val menhir_end_marker : int

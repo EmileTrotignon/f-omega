@@ -1,0 +1,358 @@
+location Characters -1--1:
+<dummy loc>
+
+Adding magic : unif in env.evar.
+unification for pattern annotationTrying to unify 
+unif
+and
+all #. #
+add unification : unif <- all #. #
+unifications =  (unif <== all #. #)
+substitution : all #. # became all #. #
+Successfully unified 
+unif
+and
+all #. #
+into :
+all #. #.
+type_exp_func : magic type to unif1
+Trying to unify 
+all #. #
+and
+unif1
+add unification : unif1 <- all #. #
+unifications =  (unif <== all #. #) (unif1 <== all #. #)
+substitution : all #. # became all #. #
+Successfully unified 
+all #. #
+and
+unif1
+into :
+all #. #.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : unif became all #. #
+exp typing : magic
+- exp :
+magic
+- has type :
+all #. #
+Trying to unify 
+all #. #
+and
+all #. #
+substitution : # became #
+Subst : # became #
+Successfully unified 
+all #. #
+and
+all #. #
+into :
+all #. #.
+Adding magic : all #. # in env.evar.
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : string became string
+substitution : unit became unit
+substitution : all #. # became all #. #
+adding magic : all #. # : all #. #
+substitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z
+substitution : lam S :: Type -> Type. lam Z. P (Q S) Z became lam S :: Type -> Type. lam Z. P (P S) Z
+substitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P S (Q S Z) became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S Z) S (Q S Z)
+substitution : lam S :: Type -> Type. lam Z. (lam S :: Type -> Type. lam Z. S Z) S (Q S Z) became lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S Z) S
+    ((lam S :: Type -> Type. lam Z. S Z) S Z)
+substitution : lam Z. S Z became lam Z. S Z
+substitution : lam Z. S Z became lam Z. S Z
+substitution : S Z became S Z
+substitution : S Z became S (S Z)
+substitution : lam S :: Type -> Type. lam Z. P (P S) Z became lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S (S Z))
+    ((lam S :: Type -> Type. lam Z. S (S Z)) S) Z
+substitution : lam Z. S (S Z) became lam Z. S (S Z)
+substitution : lam Z. S (S Z) became lam Z. (lam Z. S (S Z)) ((lam Z. S (S Z)) Z)
+substitution : S (S Z) became S (S Z)
+substitution : S (S Z) became S (S (S (S Z)))
+substitution : S (S (S (S Z))) became S (S (S (S Z)))
+location File "reduce_T4.fw", line 20, characters 4-9:
+check
+
+type_exp_func : fun (x : times nat2 nat4 s z) => x : times nat4 nat2 s z type to unif4 -> unif3
+Trying to unify 
+unif2
+and
+unif4 -> unif3
+add unification : unif2 <- unif4 -> unif3
+unifications =  (unif2 <== unif4 -> unif3)
+substitution : unif4 -> unif3 became unif4 -> unif3
+Successfully unified 
+unif2
+and
+unif4 -> unif3
+into :
+unif4 -> unif3.
+substitution : lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P S (Q S Z) became lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P S (Q S Z)
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : lam S :: Type -> Type. lam Z. Z became lam S :: Type -> Type. lam Z. Z
+substitution : lam S :: Type -> Type. lam Z. S Z became lam S :: Type -> Type. lam Z. S Z
+substitution : lam S :: Type -> Type. lam Z. S (S Z) became lam S :: Type -> Type. lam Z. S (S Z)
+substitution : lam S :: Type -> Type. lam Z. S (S (S (S Z))) became lam S :: Type -> Type. lam Z. S (S (S (S Z)))
+substitution : lam a. a * a became lam a. a * a
+substitution : lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (P S) Z became lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (P S) Z
+substitution : string became string
+substitution : lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z became lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z
+substitution : unit became unit
+substitution : int became int
+substitution : all #. # became all #. #
+exp typing : fun (x : times nat2 nat4 s z) => x : times nat4 nat2 s z
+unification for pattern annotationsubstitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S (S Z)) (Q S) Z
+substitution : lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S (S Z)) (Q S) Z became lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S (S Z))
+    ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) S) Z
+substitution : lam Z.
+(lam S :: Type -> Type. lam Z. S (S Z))
+  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) S) Z became lam Z.
+(lam S :: Type -> Type. lam Z. S (S Z))
+  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)) Z
+substitution : (lam S :: Type -> Type. lam Z. S (S Z))
+  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)) Z became (lam S :: Type -> Type. lam Z. S (S Z))
+  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)) int
+substitution : lam Z. S (S Z) became lam Z.
+(lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) Z)
+substitution : (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) Z) became (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)
+substitution : lam Z. S (S (S (S Z))) became lam Z. (lam a. a * a) ((lam a. a * a) ((lam a. a * a) ((lam a. a * a) Z)))
+substitution : (lam a. a * a) ((lam a. a * a) ((lam a. a * a) ((lam a. a * a) Z))) became (lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam a. a * a)
+           ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
+              int))))
+substitution : a * a became (lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+Trying to unify 
+unif5
+and
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+add unification : unif5 <- (lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+unifications =  (unif2 <== unif4 -> unif3) (unif5 <== (lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))))
+substitution : (lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) became (lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+Successfully unified 
+unif5
+and
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+into :
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))).
+substitution : lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P S (Q S Z) became lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P S (Q S Z)
+substitution : bool became bool
+substitution : all #. # became all #. #
+substitution : int became int
+substitution : lam S :: Type -> Type. lam Z. Z became lam S :: Type -> Type. lam Z. Z
+substitution : lam S :: Type -> Type. lam Z. S Z became lam S :: Type -> Type. lam Z. S Z
+substitution : lam S :: Type -> Type. lam Z. S (S Z) became lam S :: Type -> Type. lam Z. S (S Z)
+substitution : lam S :: Type -> Type. lam Z. S (S (S (S Z))) became lam S :: Type -> Type. lam Z. S (S (S (S Z)))
+substitution : lam a. a * a became lam a. a * a
+substitution : lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (P S) Z became lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (P S) Z
+substitution : string became string
+substitution : lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z became lam P :: (Type -> Type) -> Type -> Type.
+  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z
+substitution : unit became unit
+substitution : int became int
+substitution : all #. # became all #. #
+Adding x : (lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) in env.evar.
+exp typing : x : times nat4 nat2 s z
+exp typing : x
+- exp :
+x
+- has type :
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+substitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  P (Q S) Z became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (Q S) Z
+substitution : lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (Q S) Z became lam S :: Type -> Type.
+  lam Z.
+  (lam S :: Type -> Type. lam Z. S (S (S (S Z))))
+    ((lam S :: Type -> Type. lam Z. S (S Z)) S) Z
+substitution : lam Z.
+(lam S :: Type -> Type. lam Z. S (S (S (S Z))))
+  ((lam S :: Type -> Type. lam Z. S (S Z)) S) Z became lam Z.
+(lam S :: Type -> Type. lam Z. S (S (S (S Z))))
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)) Z
+substitution : (lam S :: Type -> Type. lam Z. S (S (S (S Z))))
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)) Z became (lam S :: Type -> Type. lam Z. S (S (S (S Z))))
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)) int
+substitution : lam Z. S (S (S (S Z))) became lam Z.
+(lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) Z)))
+substitution : (lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) Z))) became (lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int)))
+substitution : lam Z. S (S Z) became lam Z. (lam a. a * a) ((lam a. a * a) Z)
+substitution : (lam a. a * a) ((lam a. a * a) Z) became (lam a. a * a)
+  ((lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+           ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int))))
+substitution : a * a became (lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int)))
+Trying to unify 
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam a. a * a)
+     ((lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+and
+(lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int))) *
+(lam a. a * a)
+  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
+        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int)))
+substitution : a * a became a * a
+Subst : a * a became a * a
