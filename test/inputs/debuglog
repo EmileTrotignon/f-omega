@@ -1,358 +1,734 @@
+lazy normalizing :
+unit
+into :
+unit
+normalizing :
+unit
+into :
+unit
+lazy normalizing :
+bool
+into :
+bool
+normalizing :
+bool
+into :
+bool
+lazy normalizing :
+int
+into :
+int
+normalizing :
+int
+into :
+int
+lazy normalizing :
+string
+into :
+string
+normalizing :
+string
+into :
+string
+lazy normalizing :
+all #. #
+into :
+all #. #
+normalizing :
+all #. #
+into :
+all #. #
 location Characters -1--1:
 <dummy loc>
 
-Adding magic : unif in env.evar.
-unification for pattern annotationTrying to unify 
-unif
+adding evar for pattern type
+Adding magic : %unif in env.evar.
+unification for pattern annotation
+lazy normalizing :
+%unif
+into :
+%unif
+lazy normalizing :
+all #. #
+into :
+all #. #
+Trying to unify 
+%unif
 and
 all #. #
-add unification : unif <- all #. #
-unifications =  (unif <== all #. #)
-substitution : all #. # became all #. #
+branch 3
+add unification : %unif <- all #. #
+unifications =  (%unif <== all #. #)
 Successfully unified 
-unif
+%unif
 and
 all #. #
 into :
-all #. #.
-type_exp_func : magic type to unif1
+all #. #
+substs into :all #. #.
+typing pattern : magic : all #. # has type all #. #
+type_exp_func : magic type to %unif\1
+lazy normalizing :
+all #. #
+into :
+all #. #
+lazy normalizing :
+%unif\1
+into :
+%unif\1
 Trying to unify 
 all #. #
 and
-unif1
-add unification : unif1 <- all #. #
-unifications =  (unif <== all #. #) (unif1 <== all #. #)
-substitution : all #. # became all #. #
+%unif\1
+branch 4
+add unification : %unif\1 <- all #. #
+unifications =  (%unif <== all #. #) (%unif\1 <== all #. #)
 Successfully unified 
 all #. #
 and
-unif1
+%unif\1
 into :
-all #. #.
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : string became string
-substitution : unit became unit
-substitution : unif became all #. #
+all #. #
+substs into :all #. #.
 exp typing : magic
 - exp :
 magic
 - has type :
 all #. #
+lazy normalizing :
+all #. #
+into :
+all #. #
+lazy normalizing :
+all #. #
+into :
+all #. #
 Trying to unify 
 all #. #
 and
 all #. #
-substitution : # became #
+branch 12
 Subst : # became #
+branch Tvar ident, Tvar ident' when eq_cvar ident ident'
 Successfully unified 
 all #. #
 and
 all #. #
 into :
-all #. #.
+all #. #
+substs into :all #. #.
+Hey there, all #. #
+adding evar for add_pattern_evar : magic : all #. #
 Adding magic : all #. # in env.evar.
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : string became string
-substitution : unit became unit
-substitution : all #. # became all #. #
 adding magic : all #. # : all #. #
-substitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z
-substitution : lam S :: Type -> Type. lam Z. P (Q S) Z became lam S :: Type -> Type. lam Z. P (P S) Z
-substitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P S (Q S Z) became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S Z) S (Q S Z)
-substitution : lam S :: Type -> Type. lam Z. (lam S :: Type -> Type. lam Z. S Z) S (Q S Z) became lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S Z) S
-    ((lam S :: Type -> Type. lam Z. S Z) S Z)
-substitution : lam Z. S Z became lam Z. S Z
-substitution : lam Z. S Z became lam Z. S Z
-substitution : S Z became S Z
-substitution : S Z became S (S Z)
-substitution : lam S :: Type -> Type. lam Z. P (P S) Z became lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S (S Z))
-    ((lam S :: Type -> Type. lam Z. S (S Z)) S) Z
-substitution : lam Z. S (S Z) became lam Z. S (S Z)
-substitution : lam Z. S (S Z) became lam Z. (lam Z. S (S Z)) ((lam Z. S (S Z)) Z)
-substitution : S (S Z) became S (S Z)
-substitution : S (S Z) became S (S (S (S Z)))
-substitution : S (S (S (S Z))) became S (S (S (S Z)))
-location File "reduce_T4.fw", line 20, characters 4-9:
-check
+location File "shallow_prim_types_T03.fw", line 1, characters 4-5:
+x
 
-type_exp_func : fun (x : times nat2 nat4 s z) => x : times nat4 nat2 s z type to unif4 -> unif3
-Trying to unify 
-unif2
-and
-unif4 -> unif3
-add unification : unif2 <- unif4 -> unif3
-unifications =  (unif2 <== unif4 -> unif3)
-substitution : unif4 -> unif3 became unif4 -> unif3
-Successfully unified 
-unif2
-and
-unif4 -> unif3
+typing pattern : x has type %unif\2
+type_exp_func : 1 type to %unif\3
+normalizing :
+%unif\2
 into :
-unif4 -> unif3.
-substitution : lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P S (Q S Z) became lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P S (Q S Z)
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : lam S :: Type -> Type. lam Z. Z became lam S :: Type -> Type. lam Z. Z
-substitution : lam S :: Type -> Type. lam Z. S Z became lam S :: Type -> Type. lam Z. S Z
-substitution : lam S :: Type -> Type. lam Z. S (S Z) became lam S :: Type -> Type. lam Z. S (S Z)
-substitution : lam S :: Type -> Type. lam Z. S (S (S (S Z))) became lam S :: Type -> Type. lam Z. S (S (S (S Z)))
-substitution : lam a. a * a became lam a. a * a
-substitution : lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (P S) Z became lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (P S) Z
-substitution : string became string
-substitution : lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z became lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z
-substitution : unit became unit
-substitution : int became int
-substitution : all #. # became all #. #
-exp typing : fun (x : times nat2 nat4 s z) => x : times nat4 nat2 s z
-unification for pattern annotationsubstitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S (S Z)) (Q S) Z
-substitution : lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S (S Z)) (Q S) Z became lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S (S Z))
-    ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) S) Z
-substitution : lam Z.
-(lam S :: Type -> Type. lam Z. S (S Z))
-  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) S) Z became lam Z.
-(lam S :: Type -> Type. lam Z. S (S Z))
-  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)) Z
-substitution : (lam S :: Type -> Type. lam Z. S (S Z))
-  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)) Z became (lam S :: Type -> Type. lam Z. S (S Z))
-  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)) int
-substitution : lam Z. S (S Z) became lam Z.
-(lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) Z)
-substitution : (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) Z) became (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)
-substitution : lam Z. S (S (S (S Z))) became lam Z. (lam a. a * a) ((lam a. a * a) ((lam a. a * a) ((lam a. a * a) Z)))
-substitution : (lam a. a * a) ((lam a. a * a) ((lam a. a * a) ((lam a. a * a) Z))) became (lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam a. a * a)
-           ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a)
-              int))))
-substitution : a * a became (lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
-Trying to unify 
-unif5
-and
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
-add unification : unif5 <- (lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
-unifications =  (unif2 <== unif4 -> unif3) (unif5 <== (lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))))
-substitution : (lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) became (lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
-Successfully unified 
-unif5
-and
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+%unif\2
+normalizing :
+%unif\3
 into :
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))).
-substitution : lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P S (Q S Z) became lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P S (Q S Z)
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : lam S :: Type -> Type. lam Z. Z became lam S :: Type -> Type. lam Z. Z
-substitution : lam S :: Type -> Type. lam Z. S Z became lam S :: Type -> Type. lam Z. S Z
-substitution : lam S :: Type -> Type. lam Z. S (S Z) became lam S :: Type -> Type. lam Z. S (S Z)
-substitution : lam S :: Type -> Type. lam Z. S (S (S (S Z))) became lam S :: Type -> Type. lam Z. S (S (S (S Z)))
-substitution : lam a. a * a became lam a. a * a
-substitution : lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (P S) Z became lam P :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (P S) Z
-substitution : string became string
-substitution : lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z became lam P :: (Type -> Type) -> Type -> Type.
-  lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z
-substitution : unit became unit
-substitution : int became int
-substitution : all #. # became all #. #
-Adding x : (lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) in env.evar.
-exp typing : x : times nat4 nat2 s z
+%unif\3
+Trying to unify 
+%unif\2
+and
+%unif\3
+branch 3
+add unification : %unif\2 <- %unif\3
+unifications =  (%unif\2 <== %unif\3)
+Successfully unified 
+%unif\2
+and
+%unif\3
+into :
+%unif\3
+substs into :%unif\3.
+exp typing : 1
+- exp :
+1
+- has type :
+int
+normalizing :
+int
+into :
+int
+normalizing :
+%unif\2
+into :
+%unif\2
+Trying to unify 
+int
+and
+%unif\2
+branch 4
+branch 3
+add unification : %unif\3 <- int
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int)
+Successfully unified 
+int
+and
+%unif\2
+into :
+int
+substs into :int.
+Hey there, int
+adding evar for add_pattern_evar : x : int
+Adding x : int in env.evar.
+adding x : int
+location File "shallow_prim_types_T03.fw", line 2, characters 4-5:
+y
+
+typing pattern : y has type %unif\4
+type_exp_func : x type to %unif\5
+normalizing :
+%unif\4
+into :
+%unif\4
+normalizing :
+%unif\5
+into :
+%unif\5
+Trying to unify 
+%unif\4
+and
+%unif\5
+branch 3
+add unification : %unif\4 <- %unif\5
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5)
+Successfully unified 
+%unif\4
+and
+%unif\5
+into :
+%unif\5
+substs into :%unif\5.
 exp typing : x
 - exp :
 x
 - has type :
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
-substitution : lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  P (Q S) Z became lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (Q S) Z
-substitution : lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (Q S) Z became lam S :: Type -> Type.
-  lam Z.
-  (lam S :: Type -> Type. lam Z. S (S (S (S Z))))
-    ((lam S :: Type -> Type. lam Z. S (S Z)) S) Z
-substitution : lam Z.
-(lam S :: Type -> Type. lam Z. S (S (S (S Z))))
-  ((lam S :: Type -> Type. lam Z. S (S Z)) S) Z became lam Z.
-(lam S :: Type -> Type. lam Z. S (S (S (S Z))))
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)) Z
-substitution : (lam S :: Type -> Type. lam Z. S (S (S (S Z))))
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)) Z became (lam S :: Type -> Type. lam Z. S (S (S (S Z))))
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)) int
-substitution : lam Z. S (S (S (S Z))) became lam Z.
-(lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) Z)))
-substitution : (lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) Z))) became (lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int)))
-substitution : lam Z. S (S Z) became lam Z. (lam a. a * a) ((lam a. a * a) Z)
-substitution : (lam a. a * a) ((lam a. a * a) Z) became (lam a. a * a)
-  ((lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-           ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int))))
-substitution : a * a became (lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int)))
+int
+normalizing :
+int
+into :
+int
+normalizing :
+%unif\4
+into :
+%unif\4
 Trying to unify 
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam a. a * a)
-     ((lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam a. a * a) int)))
+int
 and
-(lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int))) *
-(lam a. a * a)
-  ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-     ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a)
-        ((lam S :: Type -> Type. lam Z. S (S Z)) (lam a. a * a) int)))
-substitution : a * a became a * a
-Subst : a * a became a * a
+%unif\4
+branch 4
+branch 3
+add unification : %unif\5 <- int
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int)
+Successfully unified 
+int
+and
+%unif\4
+into :
+int
+substs into :int.
+Hey there, int
+adding evar for add_pattern_evar : y : int
+Adding y : int in env.evar.
+adding y : int
+location File "shallow_prim_types_T03.fw", line 3, characters 4-6:
+i1
+
+typing pattern : i1 has type %unif\6
+type_exp_func : 1 type to %unif\7
+normalizing :
+%unif\6
+into :
+%unif\6
+normalizing :
+%unif\7
+into :
+%unif\7
+Trying to unify 
+%unif\6
+and
+%unif\7
+branch 3
+add unification : %unif\6 <- %unif\7
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7)
+Successfully unified 
+%unif\6
+and
+%unif\7
+into :
+%unif\7
+substs into :%unif\7.
+exp typing : 1
+- exp :
+1
+- has type :
+int
+normalizing :
+int
+into :
+int
+normalizing :
+%unif\6
+into :
+%unif\6
+Trying to unify 
+int
+and
+%unif\6
+branch 4
+branch 3
+add unification : %unif\7 <- int
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int)
+Successfully unified 
+int
+and
+%unif\6
+into :
+int
+substs into :int.
+Hey there, int
+adding evar for add_pattern_evar : i1 : int
+Adding i1 : int in env.evar.
+adding i1 : int
+location File "shallow_prim_types_T03.fw", line 4, characters 4-6:
+b1
+
+typing pattern : b1 has type %unif\8
+type_exp_func : true type to %unif\9
+normalizing :
+%unif\8
+into :
+%unif\8
+normalizing :
+%unif\9
+into :
+%unif\9
+Trying to unify 
+%unif\8
+and
+%unif\9
+branch 3
+add unification : %unif\8 <- %unif\9
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9)
+Successfully unified 
+%unif\8
+and
+%unif\9
+into :
+%unif\9
+substs into :%unif\9.
+exp typing : true
+- exp :
+true
+- has type :
+string
+normalizing :
+string
+into :
+string
+normalizing :
+%unif\8
+into :
+%unif\8
+Trying to unify 
+string
+and
+%unif\8
+branch 4
+branch 3
+add unification : %unif\9 <- string
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string)
+Successfully unified 
+string
+and
+%unif\8
+into :
+string
+substs into :string.
+Hey there, string
+adding evar for add_pattern_evar : b1 : string
+Adding b1 : string in env.evar.
+adding b1 : string
+normalizing :
+int\1
+into :
+int\1
+normalizing :
+int\1
+into :
+int\1
+location File "shallow_prim_types_T03.fw", line 7, characters 4-5:
+x
+
+typing pattern : x has type %unif\10
+type_exp_func : i1 type to %unif\11
+normalizing :
+%unif\10
+into :
+%unif\10
+normalizing :
+%unif\11
+into :
+%unif\11
+Trying to unify 
+%unif\10
+and
+%unif\11
+branch 3
+add unification : %unif\10 <- %unif\11
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11)
+Successfully unified 
+%unif\10
+and
+%unif\11
+into :
+%unif\11
+substs into :%unif\11.
+exp typing : i1
+- exp :
+i1
+- has type :
+int
+normalizing :
+int
+into :
+int
+normalizing :
+%unif\10
+into :
+%unif\10
+Trying to unify 
+int
+and
+%unif\10
+branch 4
+branch 3
+add unification : %unif\11 <- int
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int)
+Successfully unified 
+int
+and
+%unif\10
+into :
+int
+substs into :int.
+Hey there, int
+adding evar for add_pattern_evar : x : int
+Adding x : int in env.evar.
+adding x : int
+location File "shallow_prim_types_T03.fw", line 8, characters 4-6:
+b2
+
+typing pattern : b2 has type %unif\12
+type_exp_func : true type to %unif\13
+normalizing :
+%unif\12
+into :
+%unif\12
+normalizing :
+%unif\13
+into :
+%unif\13
+Trying to unify 
+%unif\12
+and
+%unif\13
+branch 3
+add unification : %unif\12 <- %unif\13
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13)
+Successfully unified 
+%unif\12
+and
+%unif\13
+into :
+%unif\13
+substs into :%unif\13.
+exp typing : true
+- exp :
+true
+- has type :
+string
+normalizing :
+string
+into :
+string
+normalizing :
+%unif\12
+into :
+%unif\12
+Trying to unify 
+string
+and
+%unif\12
+branch 4
+branch 3
+add unification : %unif\13 <- string
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string)
+Successfully unified 
+string
+and
+%unif\12
+into :
+string
+substs into :string.
+Hey there, string
+adding evar for add_pattern_evar : b2 : string
+Adding b2 : string in env.evar.
+adding b2 : string
+location File "shallow_prim_types_T03.fw", line 9, characters 4-7:
+b21
+
+typing pattern : b21 has type %unif\14
+type_exp_func : b1 type to %unif\15
+normalizing :
+%unif\14
+into :
+%unif\14
+normalizing :
+%unif\15
+into :
+%unif\15
+Trying to unify 
+%unif\14
+and
+%unif\15
+branch 3
+add unification : %unif\14 <- %unif\15
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15)
+Successfully unified 
+%unif\14
+and
+%unif\15
+into :
+%unif\15
+substs into :%unif\15.
+exp typing : b1
+- exp :
+b1
+- has type :
+string
+normalizing :
+string
+into :
+string
+normalizing :
+%unif\14
+into :
+%unif\14
+Trying to unify 
+string
+and
+%unif\14
+branch 4
+branch 3
+add unification : %unif\15 <- string
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string)
+Successfully unified 
+string
+and
+%unif\14
+into :
+string
+substs into :string.
+Hey there, string
+adding evar for add_pattern_evar : b21 : string
+Adding b21 : string in env.evar.
+adding b21 : string
+location File "shallow_prim_types_T03.fw", line 10, characters 4-5:
+f
+
+typing pattern : f has type %unif\16
+type_exp_func : fun (x : string) => x type to %unif\18 -> %unif\17
+normalizing :
+%unif\16
+into :
+%unif\16
+normalizing :
+%unif\18 -> %unif\17
+into :
+%unif\18 -> %unif\17
+Trying to unify 
+%unif\16
+and
+%unif\18 -> %unif\17
+branch 3
+add unification : %unif\16 <- %unif\18 -> %unif\17
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17)
+Successfully unified 
+%unif\16
+and
+%unif\18 -> %unif\17
+into :
+%unif\18 -> %unif\17
+substs into :%unif\18 -> %unif\17.
+exp typing : fun (x : string) => x
+unification for pattern annotation
+normalizing :
+%unif\19
+into :
+%unif\19
+normalizing :
+(string\1 = int\1)
+into :
+(string\1 = int\1)
+Trying to unify 
+%unif\19
+and
+(string\1 = int\1)
+branch 3
+add unification : %unif\19 <- (string\1 = int\1)
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17) (%unif\19 <== (string\1 = int\1))
+Successfully unified 
+%unif\19
+and
+(string\1 = int\1)
+into :
+(string\1 = int\1)
+substs into :(string\1 = int\1).
+typing pattern : x : string has type (string\1 = int\1)
+Hey there 2, (string\1 = int\1)
+adding evar for add_pattern_evar : x : (string\1 = int\1)
+Adding x : (string\1 = int\1) in env.evar.
+exp typing : x
+- exp :
+x
+- has type :
+(string\1 = int\1)
+- exp :
+fun (x : string) => x
+- has type :
+(string\1 = int\1) -> (string\1 = int\1)
+normalizing :
+(string\1 = int\1) -> (string\1 = int\1)
+into :
+(string\1 = int\1) -> (string\1 = int\1)
+normalizing :
+%unif\16
+into :
+%unif\16
+Trying to unify 
+(string\1 = int\1) -> (string\1 = int\1)
+and
+%unif\16
+branch 4
+branch 11
+branch 3
+add unification : %unif\18 <- (string\1 = int\1)
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17) (%unif\18 <== (string\1 = int\1))
+branch 3
+add unification : %unif\17 <- (string\1 = int\1)
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17) (%unif\17 <== (string\1 = int\1)) (%unif\18 <== (string\1 = int\1))
+Successfully unified 
+(string\1 = int\1) -> (string\1 = int\1)
+and
+%unif\16
+into :
+(string\1 = int\1) -> (string\1 = int\1)
+substs into :(string\1 = int\1) -> (string\1 = int\1).
+Hey there, (string\1 = int\1) -> (string\1 = int\1)
+adding evar for add_pattern_evar : f : (string\1 = int\1) -> (string\1 = int\1)
+Adding f : (string\1 = int\1) -> (string\1 = int\1) in env.evar.
+adding f : (string\1 = int\1) -> (string\1 = int\1)
+location File "shallow_prim_types_T03.fw", line 11, characters 4-5:
+g
+
+typing pattern : g has type %unif\20
+type_exp_func : fun (x : int) => x type to %unif\22 -> %unif\21
+normalizing :
+%unif\20
+into :
+%unif\20
+normalizing :
+%unif\22 -> %unif\21
+into :
+%unif\22 -> %unif\21
+Trying to unify 
+%unif\20
+and
+%unif\22 -> %unif\21
+branch 3
+add unification : %unif\20 <- %unif\22 -> %unif\21
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17) (%unif\17 <== (string\1 = int\1)) (%unif\18 <== (string\1 = int\1)) (%unif\20 <== %unif\22 -> %unif\21)
+Successfully unified 
+%unif\20
+and
+%unif\22 -> %unif\21
+into :
+%unif\22 -> %unif\21
+substs into :%unif\22 -> %unif\21.
+exp typing : fun (x : int) => x
+unification for pattern annotation
+normalizing :
+%unif\23
+into :
+%unif\23
+normalizing :
+int\1
+into :
+int\1
+Trying to unify 
+%unif\23
+and
+int\1
+branch 3
+add unification : %unif\23 <- int\1
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17) (%unif\17 <== (string\1 = int\1)) (%unif\18 <== (string\1 = int\1)) (%unif\20 <== %unif\22 -> %unif\21) (%unif\23 <== int\1)
+Successfully unified 
+%unif\23
+and
+int\1
+into :
+int\1
+substs into :int\1.
+typing pattern : x : int has type int\1
+Hey there 2, int\1
+adding evar for add_pattern_evar : x : int\1
+Adding x : int\1 in env.evar.
+exp typing : x
+- exp :
+x
+- has type :
+int\1
+- exp :
+fun (x : int) => x
+- has type :
+int\1 -> int\1
+normalizing :
+int\1 -> int\1
+into :
+int\1 -> int\1
+normalizing :
+%unif\20
+into :
+%unif\20
+Trying to unify 
+int\1 -> int\1
+and
+%unif\20
+branch 4
+branch 11
+branch 3
+add unification : %unif\22 <- int\1
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17) (%unif\17 <== (string\1 = int\1)) (%unif\18 <== (string\1 = int\1)) (%unif\20 <== %unif\22 -> %unif\21) (%unif\22 <== int\1)
+branch 3
+add unification : %unif\21 <- int\1
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int) (%unif\4 <== %unif\5) (%unif\5 <== int) (%unif\6 <== %unif\7) (%unif\7 <== int) (%unif\8 <== %unif\9) (%unif\9 <== string) (%unif\10 <== %unif\11) (%unif\11 <== int) (%unif\12 <== %unif\13) (%unif\13 <== string) (%unif\14 <== %unif\15) (%unif\15 <== string) (%unif\16 <== %unif\18 -> %unif\17) (%unif\17 <== (string\1 = int\1)) (%unif\18 <== (string\1 = int\1)) (%unif\20 <== %unif\22 -> %unif\21) (%unif\21 <== int\1) (%unif\22 <== int\1)
+Successfully unified 
+int\1 -> int\1
+and
+%unif\20
+into :
+int\1 -> int\1
+substs into :int\1 -> int\1.
+Hey there, int\1 -> int\1
+adding evar for add_pattern_evar : g : int\1 -> int\1
+Adding g : int\1 -> int\1 in env.evar.
+adding g : int\1 -> int\1

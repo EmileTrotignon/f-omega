@@ -15,7 +15,7 @@ type nat2 = add nat1 nat1
 type nat4 = square nat2
 
 type z = int
-type s a = a * a
+type s W = W * W
 
 let check (x : times nat2 nat4 s z) : times nat4 nat2 s z = x
 
