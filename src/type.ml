@@ -125,13 +125,13 @@ let rec norm_lazy t =
   | _ ->
       t
 
-let rec norm ?(expand_defs=false) t1 =
+let rec norm ?(expand_defs = false) t1 =
   (* meprintf "internal normalizing : %s\n" Print.(string @@ typ cvar t1) ; *)
   match t1 with
-  | Tvar ident -> (
-    if expand_defs then
-      match ident.def with Some {typ; _} -> norm typ | None -> t1
-    else t1)
+  | Tvar ident ->
+      if expand_defs then
+        match ident.def with Some {typ; _} -> norm typ | None -> t1
+      else t1
   | Tprim _ ->
       t1
   | Tapp (tfunc, targ) -> (
@@ -142,9 +142,9 @@ let rec norm ?(expand_defs=false) t1 =
       | _ ->
           Tapp (tfunc, norm targ) )
   | Tprod t_li ->
-      Tprod (t_li |> List.map norm)
+      Tprod (t_li |> List.map (norm ~expand_defs))
   | Trcd rcd ->
-      Trcd (rcd |> map_snd norm)
+      Trcd (rcd |> map_snd (norm ~expand_defs))
   | Tbind (binder, ident, kind, typ) ->
       Tbind (binder, ident, kind, norm typ)
   | Tarr (targ, tbody) ->
@@ -204,5 +204,4 @@ let rec diff_typ t1 t2 =
   | t1, t2 ->
       Some (t1, t2)
 
-let eq_typ t1 t2 =
- diff_typ t1 t2 <> None
+let eq_typ t1 t2 = diff_typ t1 t2 <> None
