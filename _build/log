@@ -1,10 +1,10 @@
-# dune exec ../../src/main.exe -- reduce_T4.fw --eager
+# dune exec src/main.exe -- test.fw --eager
 # OCAMLPARAM: unset
 # Workspace root: /home/emile/Etudes/M2/functionnal_programming/project
-$ /usr/bin/nproc > /tmp/duneb514ae.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/duneff4e0e.output 2> /dev/null
 # Auto-detected concurrency: 8
 # disable binary cache
-$ /home/emile/.opam/4.13.1/bin/ocamlc.opt -config > /tmp/dune3359ab.output
+$ /home/emile/.opam/4.13.1/bin/ocamlc.opt -config > /tmp/dunecabf76.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"

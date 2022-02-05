@@ -1,6 +1,6 @@
-File "map_pair_T3.fw", line 7, characters 70-71:
+File "./fail_map_pair_T3.fw", line 4, characters 0-120:
 
 Typing error: mistmatch between: 
-Actual type:     A
-Expected type:   (lam C1. A) C
+Actual type:     all C. (lam C1. A) C -> (lam C1. B) C
+Expected type:   A -> B
 Expected failure is ok!

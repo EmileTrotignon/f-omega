@@ -1,6 +1,5 @@
-File "./fail_escaping_lam_T4.fw", line 8, characters 27-56:
+File "./fail_escaping_lam_T4.fw", line 9, characters 8-36:
 
-Typing error: mistmatch between: 
-Actual type:     int
-Expected type:   (lam a. a) int
+Typing error: out of scope variable  a
+in actual type:   a
 Expected failure is ok!

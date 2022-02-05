@@ -52,112 +52,6 @@ let apply su a = apply_with_default a su a
 (** Kind equality *)
 let rec eq_kind k1 k2 = k1 = k2
 
-(** Type substitution as opposed to renaming *)
-let rec subst su (t : ctyp) : ctyp =
-  if Tenv.is_empty su then t
-  else
-    match t with
-    | Tvar ident -> (
-      match Tenv.find_opt ident su with
-      | Some typ ->
-          typ
-      | None -> (
-        match ident.def with Some {typ; _} -> subst su typ | None -> t ) )
-    | Tprim prim_typ ->
-        Tprim prim_typ
-    | Tapp (tfunc, targ) ->
-        Tapp (subst su tfunc, subst su targ)
-    | Tprod t_li ->
-        Tprod (t_li |> List.map (subst su))
-    | Trcd rdc ->
-        Trcd (rdc |> List.map (fun (field, typ) -> (field, subst su typ)))
-    | Tarr (t1, t2) ->
-        Tarr (subst su t1, subst su t2)
-    | Tbind (binder, ident, kind, typ) ->
-        let su = Tenv.remove ident su in
-        Tbind (binder, ident (* todo check correctness *), kind, subst su typ)
-
-let subst su t =
-  let t' = subst su t in
-  Print.(
-    meprintf "substitution : %s became %s\n"
-      (string (typ cvar t))
-      (string (typ cvar t'))) ;
-  t'
-
-let subst_typ a ta t =
-  let su = Tenv.singleton a ta in
-  subst su t
-
-(** Type normalization *)
-let eager = spec_false "--eager" "Eager full reduction and definition expansion"
-
-(** We still provide the --lazy option, even though this is the default *)
-let _lazy =
-  spec_add "--lazy" (Arg.Clear eager)
-    "Lazy definition expansion and reduction to head normal forms"
-
-type rec_env = C of (rec_env * cvar Tenv.t * ctyp) Tenv.t
-
-let fresh_cvar env svar =
-  let rec pick_id id =
-    let candidate = cvar ~id svar in
-    if not @@ Tenv.mem candidate env then candidate else pick_id (id + 1)
-  in
-  pick_id 0
-
-let refresh_cvar env cvar = fresh_cvar env (svar cvar.name)
-
-let refresh_cvar_rec_env env cvar =
-  let (C env) = env in
-  fresh_cvar env (svar cvar.name)
-
-let rec norm_lazy t =
-  match t with
-  | Tapp (tfunc, targ) -> (
-      let tfunc = norm_lazy tfunc in
-      match tfunc with
-      | Tbind (Tlam, ident, kind, typ) ->
-          let typ = subst_typ ident targ typ in
-          norm_lazy typ
-      | _ ->
-          Tapp (tfunc, targ) )
-  | _ ->
-      t
-
-let rec norm ?(expand_defs = false) t1 =
-  (* meprintf "internal normalizing : %s\n" Print.(string @@ typ cvar t1) ; *)
-  match t1 with
-  | Tvar ident ->
-      if expand_defs then
-        match ident.def with Some {typ; _} -> norm typ | None -> t1
-      else t1
-  | Tprim _ ->
-      t1
-  | Tapp (tfunc, targ) -> (
-      let tfunc = norm tfunc in
-      match tfunc with
-      | Tbind (Tlam, ident, kind, typ) ->
-          norm (subst_typ ident (norm targ) typ)
-      | _ ->
-          Tapp (tfunc, norm targ) )
-  | Tprod t_li ->
-      Tprod (t_li |> List.map (norm ~expand_defs))
-  | Trcd rcd ->
-      Trcd (rcd |> map_snd (norm ~expand_defs))
-  | Tbind (binder, ident, kind, typ) ->
-      Tbind (binder, ident, kind, norm typ)
-  | Tarr (targ, tbody) ->
-      Tarr (norm targ, norm tbody)
-
-let norm t1 =
-  let t1' = norm t1 in
-  (* Print.(
-     meprintf "normalizing :\n%s\ninto :\n%s\n"
-       (string @@ typ cvar t1)
-       (string @@ typ cvar t1')) ; *)
-  t1'
-
 let bind_none ~f o = match o with None -> f () | v -> v
 
 let rec diff_typ t1 t2 =
@@ -204,4 +98,129 @@ let rec diff_typ t1 t2 =
   | t1, t2 ->
       Some (t1, t2)
 
-let eq_typ t1 t2 = diff_typ t1 t2 <> None
+and eq_typ t1 t2 = diff_typ t1 t2 = None
+
+(** Type substitution as opposed to renaming *)
+and subst su (t : ctyp) : ctyp =
+  if Tenv.is_empty su then t
+  else
+    match t with
+    | Tvar ident -> (
+      match Tenv.find_opt ident su with
+      | Some typ ->
+          typ
+      | None -> (
+        match ident.def with
+        | Some {typ; _} ->
+            let typ' = subst su typ in
+            if eq_typ typ typ' then t else typ'
+        | None ->
+            t ) )
+    | Tprim prim_typ ->
+        Tprim prim_typ
+    | Tapp (tfunc, targ) ->
+        Tapp (subst su tfunc, subst su targ)
+    | Tprod t_li ->
+        Tprod (t_li |> List.map (subst su))
+    | Trcd rdc ->
+        Trcd (rdc |> List.map (fun (field, typ) -> (field, subst su typ)))
+    | Tarr (t1, t2) ->
+        Tarr (subst su t1, subst su t2)
+    | Tbind (binder, ident, kind, typ) ->
+        let su = Tenv.remove ident su in
+        Tbind (binder, ident (* todo check correctness *), kind, subst su typ)
+
+and subst_typ a ta t =
+  let su = Tenv.singleton a ta in
+  subst su t
+
+let subst su t =
+  let t' = subst su t in
+  (* Print.(
+     meprintf "substitution : %s became %s\n"
+       (string (typ cvar t))
+       (string (typ cvar t'))) ; *)
+  t'
+
+(** Type normalization *)
+let eager = spec_false "--eager" "Eager full reduction and definition expansion"
+
+(** We still provide the --lazy option, even though this is the default *)
+let _lazy =
+  spec_add "--lazy" (Arg.Clear eager)
+    "Lazy definition expansion and reduction to head normal forms"
+
+type rec_env = C of (rec_env * cvar Tenv.t * ctyp) Tenv.t
+
+let fresh_cvar env svar =
+  let rec pick_id id =
+    let candidate = cvar ~id svar in
+    if not @@ Tenv.mem candidate env then candidate else pick_id (id + 1)
+  in
+  pick_id 0
+
+let refresh_cvar env cvar = fresh_cvar env (svar cvar.name)
+
+let refresh_cvar_rec_env env cvar =
+  let (C env) = env in
+  fresh_cvar env (svar cvar.name)
+
+let rec norm_lazy t =
+  match t with
+  | Tapp (tfunc, targ) -> (
+      let _mfunc, tfunc = norm_lazy tfunc in
+      match tfunc with
+      | Tvar {def= Some {typ; _}; _} ->
+          let m, t' = norm_lazy (Tapp (typ, targ)) in
+          if m then (true, t') else (false, t)
+      | Tbind (Tlam, ident, kind, typ) ->
+          let typ = subst_typ ident targ typ in
+          let _mtyp, typ = norm_lazy typ in
+          (true, typ)
+      | _ ->
+          (false, Tapp (tfunc, targ)) )
+  | _ ->
+      (false, t)
+
+let norm_lazy t =
+  let b, t' = norm_lazy t in
+  Print.(
+    meprintf "lazy normalizing :\n%s\ninto :\n%s\n"
+      (string @@ typ cvar t)
+      (string @@ typ cvar t')) ;
+  (b, t')
+
+let expand_def t = match t with Tvar {def= Some {typ; _}; _} -> typ | _ -> t
+
+let rec norm ?(expand_defs = false) t =
+  (* meprintf "internal normalizing : %s\n" Print.(string @@ typ cvar t1) ; *)
+  match t with
+  | Tvar ident ->
+      if expand_defs then
+        match ident.def with Some {typ; _} -> norm typ | None -> t
+      else t
+  | Tprim _ ->
+      t
+  | Tapp (tfunc, targ) -> (
+      let tfunc = tfunc |> norm ~expand_defs |> expand_def in
+      match tfunc with
+      | Tbind (Tlam, ident, kind, typ) ->
+          norm (subst_typ ident (norm targ) typ)
+      | _ ->
+          Tapp (tfunc, norm targ) )
+  | Tprod t_li ->
+      Tprod (t_li |> List.map (norm ~expand_defs))
+  | Trcd rcd ->
+      Trcd (rcd |> map_snd (norm ~expand_defs))
+  | Tbind (binder, ident, kind, typ) ->
+      Tbind (binder, ident, kind, norm typ)
+  | Tarr (targ, tbody) ->
+      Tarr (norm targ, norm tbody)
+
+let norm t =
+  let t' = norm t in
+  Print.(
+    meprintf "normalizing :\n%s\ninto :\n%s\n"
+      (string @@ typ cvar t)
+      (string @@ typ cvar t')) ;
+  t'

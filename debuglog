@@ -1,102 +1,168 @@
+lazy normalizing :
+unit
+into :
+unit
+normalizing :
+unit
+into :
+unit
+lazy normalizing :
+bool
+into :
+bool
+normalizing :
+bool
+into :
+bool
+lazy normalizing :
+int
+into :
+int
+normalizing :
+int
+into :
+int
+lazy normalizing :
+string
+into :
+string
+normalizing :
+string
+into :
+string
+lazy normalizing :
+all #. #
+into :
+all #. #
+normalizing :
+all #. #
+into :
+all #. #
 location Characters -1--1:
 <dummy loc>
 
-Adding magic : unif in env.evar.
-unification for pattern annotationTrying to unify 
-unif
+adding evar for pattern type
+Adding magic : %unif in env.evar.
+unification for pattern annotation
+lazy normalizing :
+%unif
+into :
+%unif
+lazy normalizing :
+all #. #
+into :
+all #. #
+Trying to unify 
+%unif
 and
 all #. #
-add unification : unif <- all #. #
-unifications =  (unif <== all #. #)
-substitution : all #. # became all #. #
+branch 3
+add unification : %unif <- all #. #
+unifications =  (%unif <== all #. #)
 Successfully unified 
-unif
+%unif
 and
 all #. #
 into :
-all #. #.
-substitution : all #. # became all #. #
-type_exp_func : magic type to unif1
+all #. #
+substs into :all #. #.
+typing pattern : magic : all #. # has type all #. #
+type_exp_func : magic type to %unif\1
+lazy normalizing :
+all #. #
+into :
+all #. #
+lazy normalizing :
+%unif\1
+into :
+%unif\1
 Trying to unify 
 all #. #
 and
-unif1
-add unification : unif1 <- all #. #
-unifications =  (unif <== all #. #) (unif1 <== all #. #)
-substitution : all #. # became all #. #
+%unif\1
+branch 4
+add unification : %unif\1 <- all #. #
+unifications =  (%unif <== all #. #) (%unif\1 <== all #. #)
 Successfully unified 
 all #. #
 and
-unif1
+%unif\1
 into :
-all #. #.
-substitution : all #. # became all #. #
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : string became string
-substitution : unit became unit
-substitution : unif became all #. #
+all #. #
+substs into :all #. #.
 exp typing : magic
 - exp :
 magic
 - has type :
 all #. #
+lazy normalizing :
+all #. #
+into :
+all #. #
+lazy normalizing :
+all #. #
+into :
+all #. #
 Trying to unify 
 all #. #
 and
 all #. #
-substitution : # became #
+branch 12
 Subst : # became #
+branch Tvar ident, Tvar ident' when eq_cvar ident ident'
 Successfully unified 
 all #. #
 and
 all #. #
 into :
-all #. #.
-substitution : all #. # became all #. #
+all #. #
+substs into :all #. #.
+Hey there, all #. #
+adding evar for add_pattern_evar : magic : all #. #
 Adding magic : all #. # in env.evar.
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : string became string
-substitution : unit became unit
-substitution : all #. # became all #. #
 adding magic : all #. # : all #. #
 location File "test.fw", line 1, characters 8-9:
 f
 
-Adding f : unif2 in env.evar.
-type_exp_func : let a = f 1 0 in f type to unif3
-Trying to unify 
-unif2
-and
-unif3
-add unification : unif2 <- unif3
-unifications =  (unif2 <== unif3)
-substitution : unif3 became unif3
-Successfully unified 
-unif2
-and
-unif3
+adding evar for pattern type
+Adding f : %unif\2 in env.evar.
+typing pattern : f has type %unif\2
+type_exp_func : let a = f 1 0 in f type to %unif\3
+normalizing :
+%unif\2
 into :
-unif3.
-substitution : unif3 became unif3
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : string became string
-substitution : unit became unit
-substitution : unif2 became unif3
-substitution : all #. # became all #. #
+%unif\2
+normalizing :
+%unif\3
+into :
+%unif\3
+Trying to unify 
+%unif\2
+and
+%unif\3
+branch 3
+add unification : %unif\2 <- %unif\3
+unifications =  (%unif\2 <== %unif\3)
+Successfully unified 
+%unif\2
+and
+%unif\3
+into :
+%unif\3
+substs into :%unif\3.
 exp typing : let a = f 1 0 in f
+typing pattern : a has type %unif\4
 exp typing : f 1 0
 exp typing : f
 - exp :
 f
 - has type :
-unif3
-applying unif3 to 1
+%unif\3
+normalizing :
+%unif\3
+into :
+%unif\3
+applying %unif\3 to 1
 exp typing : 1
 - exp :
 1
@@ -104,24 +170,32 @@ exp typing : 1
 int
 unification for exp func appl. function is : f, arg is 1
 type of function is :
-unif3
+%unif\3
 and type of argument is :
 int
-Trying to unify 
-unif3
-and
-int -> unif5
-add unification : unif3 <- int -> unif5
-unifications =  (unif2 <== unif3) (unif3 <== int -> unif5)
-substitution : int -> unif5 became int -> unif5
-Successfully unified 
-unif3
-and
-int -> unif5
+normalizing :
+%unif\3
 into :
-int -> unif5.
-substitution : int -> unif5 became int -> unif5
-applying unif5 to 0
+%unif\3
+normalizing :
+int -> %unif\5
+into :
+int -> %unif\5
+Trying to unify 
+%unif\3
+and
+int -> %unif\5
+branch 3
+add unification : %unif\3 <- int -> %unif\5
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\5)
+Successfully unified 
+%unif\3
+and
+int -> %unif\5
+into :
+int -> %unif\5
+substs into :int -> %unif\5.
+applying %unif\5 to 0
 exp typing : 0
 - exp :
 0
@@ -129,75 +203,95 @@ exp typing : 0
 int
 unification for exp func appl. function is : f, arg is 0
 type of function is :
-unif5
+%unif\5
 and type of argument is :
 int
-Trying to unify 
-unif5
-and
-int -> unif6
-add unification : unif5 <- int -> unif6
-unifications =  (unif2 <== unif3) (unif3 <== int -> unif5) (unif5 <== int -> unif6)
-substitution : int -> unif6 became int -> unif6
-Successfully unified 
-unif5
-and
-int -> unif6
+normalizing :
+%unif\5
 into :
-int -> unif6.
-substitution : int -> unif6 became int -> unif6
+%unif\5
+normalizing :
+int -> %unif\6
+into :
+int -> %unif\6
+Trying to unify 
+%unif\5
+and
+int -> %unif\6
+branch 3
+add unification : %unif\5 <- int -> %unif\6
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\5) (%unif\5 <== int -> %unif\6)
+Successfully unified 
+%unif\5
+and
+int -> %unif\6
+into :
+int -> %unif\6
+substs into :int -> %unif\6.
+normalizing :
+%unif\6
+into :
+%unif\6
 - exp :
 f 1 0
 - has type :
-unif6
-Trying to unify 
-unif4
-and
-unif6
-add unification : unif4 <- unif6
-unifications =  (unif2 <== unif3) (unif3 <== int -> unif5) (unif4 <== unif6) (unif5 <== int -> unif6)
-substitution : unif6 became unif6
-Successfully unified 
-unif4
-and
-unif6
+%unif\6
+normalizing :
+%unif\4
 into :
-unif6.
-substitution : unif6 became unif6
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : string became string
-substitution : unit became unit
-substitution : unif3 became int -> unif5
-substitution : all #. # became all #. #
-Adding a : unif6 in env.evar.
+%unif\4
+normalizing :
+%unif\6
+into :
+%unif\6
+Trying to unify 
+%unif\4
+and
+%unif\6
+branch 3
+add unification : %unif\4 <- %unif\6
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\5) (%unif\4 <== %unif\6) (%unif\5 <== int -> %unif\6)
+Successfully unified 
+%unif\4
+and
+%unif\6
+into :
+%unif\6
+substs into :%unif\6.
+adding evar for add_pattern_evar : a : %unif\6
+Adding a : %unif\6 in env.evar.
 exp typing : f
 - exp :
 f
 - has type :
-int -> unif5
+int -> %unif\5
 - exp :
 let a = f 1 0 in f
 - has type :
-int -> unif5
-Trying to unify 
-int -> unif5
-and
-unif2
-Successfully unified 
-int -> unif5
-and
-unif2
+int -> %unif\5
+normalizing :
+int -> %unif\5
 into :
-int -> unif5.
-substitution : int -> unif5 became int -> int -> unif6
-Adding f : int -> int -> unif6 in env.evar.
-substitution : bool became bool
-substitution : all #. # became all #. #
-substitution : int became int
-substitution : string became string
-substitution : unit became unit
-substitution : int -> int -> unif6 became int -> int -> unif6
-substitution : all #. # became all #. #
-adding f : int -> int -> unif6
+int -> %unif\5
+normalizing :
+%unif\2
+into :
+%unif\2
+Trying to unify 
+int -> %unif\5
+and
+%unif\2
+branch 4
+branch 3
+branch 11
+Successfully unified 
+int -> %unif\5
+and
+%unif\2
+into :
+int -> %unif\5
+substs into :int -> int -> %unif\6.
+Hey there, int -> int -> %unif\6
+adding evar for add_pattern_evar : f : int -> int -> %unif\6
+Adding f : int -> int -> %unif\6 in env.evar.
+adding f : int -> int -> %unif\6

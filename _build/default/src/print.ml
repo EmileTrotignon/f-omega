@@ -1,6 +1,6 @@
 open Syntax
 
-let debugging_print= false
+let debugging_print= true
 
 module S =
   struct

@@ -35,7 +35,7 @@ val norm : ctyp -> ctyp
 (** [norm t] returns a type equivalent to [t] but in normal form. *)
 
 
-val norm_lazy : ctyp -> ctyp
+val norm_lazy : ctyp -> bool * ctyp
 (** [norm_lazy t] returns a type equivalent to [t] but in normal form. *)
 
 val eq_typ : ctyp -> ctyp -> bool
