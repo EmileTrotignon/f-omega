@@ -8,9 +8,10 @@ module Tenv : sig
   include Map.S
 
   val map_key : (key -> key) -> 'a t -> 'a t
-
 end
 with type key = cvar
+
+val eq_cvar : cvar -> cvar -> bool
 
 val eq_kind : kind -> kind -> bool
 (** Implements kind equality, whose definition is trivial. *)
@@ -34,6 +35,7 @@ val eager : bool ref
 val norm : ctyp -> ctyp
 (** [norm t] returns a type equivalent to [t] but in normal form. *)
 
+val expand_def : ctyp -> ctyp
 
 val norm_lazy : ctyp -> bool * ctyp
 (** [norm_lazy t] returns a type equivalent to [t] but in normal form. *)

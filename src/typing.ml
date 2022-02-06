@@ -30,6 +30,13 @@ let string_of_kind k = Print.(string (kind k))
 
 let string_of_exp e = Print.(string (exp e))
 
+type reason =
+  [ `NotARecord
+  | `NotBinder of shape
+  | `OutOfBoundsProj of int
+  | `RecordLabel of lab
+  | `Shape of ctyp ]
+
 let failure_typing reason t =
   Error.(
     raise
@@ -77,6 +84,26 @@ let find_cvar env a =
     failwith
       (Printf.sprintf "Could not find %s_%i in env.cvar. Should never happen."
          a.name a.id )
+
+let string_of_cvars un =
+  let buffer = Buffer.create 256 in
+  Tenv.iter
+    (fun cvar kind ->
+      Buffer.add_string buffer
+        (sprintf " (%s :: %s)" (string_of_cvar cvar) (string_of_kind kind)) )
+    un ;
+  Buffer.contents buffer
+
+let cvar_repr {name; id; _} = if id = 0 then name else name ^ string_of_int id
+
+let exists_cvar_with_repr env repr =
+  let r =
+    Tenv.exists (fun cvar _ -> String.equal (cvar_repr cvar) repr) env.cvar
+  in
+  meprintf "There %s exists a variable with repr %s in env :\n%s\n"
+    (if r then "does" else "does not")
+    repr (string_of_cvars env.cvar) ;
+  r
 
 let find_evar env x = Eenv.find x env.evar
 
@@ -154,9 +181,13 @@ let fresh_cvar env ?def ?unifiable svar =
   let def = Option.map norm_def def in
   let rec pick_id id =
     let candidate = cvar ~id ?def ?unifiable svar in
-    if not @@ Tenv.mem candidate env.cvar then candidate else pick_id (id + 1)
+    let repr = cvar_repr candidate in
+    if exists_cvar_with_repr env repr then pick_id (id + 1) else candidate
   in
-  pick_id 0
+  let r = pick_id 0 in
+  meprintf "Fresh %s is %s in env :\n%s\n" (string_of_svar svar)
+    (string_of_cvar r) (string_of_cvars env.cvar) ;
+  r
 
 let fresh_unifiable_cvar =
   let id = ref (-1) in
@@ -171,7 +202,16 @@ let refresh_cvar env ?def ?unifiable cvar =
 let rec refresh_cvars env su typ =
   match typ with
   | Tvar a ->
-      Tvar (match Tenv.find_opt a su with Some a -> a | None -> a)
+      Tvar
+        ( match Tenv.find_opt a su with
+        | Some a ->
+            a
+        | None -> (
+          match a.def with
+          | Some {typ; scope} ->
+              {a with def= Some {typ= refresh_cvars env su typ; scope}}
+          | None ->
+              a ) )
   | Tprim prim_typ ->
       Tprim prim_typ
   | Tapp (tfunc, targ) ->
@@ -246,6 +286,13 @@ let rec type_typ env (t : styp) : kind * ctyp =
       let kind_output, typ = type_typ env typ in
       (kind_output, Tbind (binder, cident, kind_input, typ))
 
+let type_typ env st =
+  let kind, ctyp = type_typ env st in
+  meprintf "Styp : %s became ctyp %s\n"
+    Print.(string (styp st))
+    (string_of_ctyp ctyp) ;
+  (kind, ctyp)
+
 (** Checking that local variable do not escape. Typechecking of
    existential types requires that locally abstract variables do not escape
    from their scope.  This amounts to verifying that the returned type is
@@ -257,8 +304,6 @@ let rec type_typ env (t : styp) : kind * ctyp =
    equivalent type that is well-formed.  This should just perform the
    necessary unfoldings and reductions.  *)
 exception Escape of cvar
-
-let eq_cvar c1 c2 = c1.name = c2.name && c1.id = c2.id
 
 let rec wf_ctyp env t : ctyp =
   match t with
@@ -308,9 +353,40 @@ let sort_rcd rcd =
 
 let norm_eager = norm
 
-let norm () = if !eager then norm else fun t -> snd (norm_lazy t)
+let norm_if_eager () = if !eager then norm else Fun.id
+(*fun t -> snd (norm_lazy t)*)
+
+let rec mentions_cvar cvar typ =
+  match typ with
+  | Tvar cvar' ->
+      if eq_cvar cvar cvar' then true
+      else
+        Option.value ~default:false
+        @@ Option.map (fun {typ; _} -> mentions_cvar cvar typ) cvar'.def
+  | Tprim _prim_typ ->
+      false
+  | Tapp (tfunc, targ) ->
+      mentions_cvar cvar tfunc || mentions_cvar cvar targ
+  | Tprod t_li ->
+      t_li |> List.exists (mentions_cvar cvar)
+  | Trcd rdc ->
+      rdc |> List.exists (fun (_field, typ) -> mentions_cvar cvar typ)
+  | Tarr (t1, t2) ->
+      mentions_cvar cvar t1 || mentions_cvar cvar t2
+  | Tbind (binder, ident, kind, typ) ->
+      if eq_cvar ident cvar then false else mentions_cvar cvar typ
+
+let mentions_cvar cvar typ =
+  let r = mentions_cvar cvar typ in
+  meprintf "Mentions : Type %s %s mentions %s\n" (string_of_ctyp typ)
+    (if r then "does" else "doesn't")
+    (string_of_cvar cvar) ;
+  r
+
+exception UnifFailure of reason * ctyp
 
 let rec unify_types unifications t1 t2 : ctyp Tenv.t * ctyp =
+  let fail reason t = raise (UnifFailure (reason, t)) in
   (* (meprintf "Intermediate : Trying to unify type : \n%s\n and \n%s\n"
       (string_of_ctyp t1) )
      (string_of_ctyp t2) ; *)
@@ -334,21 +410,35 @@ let rec unify_types unifications t1 t2 : ctyp Tenv.t * ctyp =
              {typ; _}; _})\n" ;
           let n_unif = Tenv.cardinal unifications in
           let unifications, t =
-            unify_types unifications (norm () t1) (norm () t2)
+            unify_types unifications (norm_if_eager () t1) (norm_if_eager () t2)
           in
           let new_n_unif = Tenv.cardinal unifications in
           (unifications, if n_unif = new_n_unif then keep_var else t)
       | Tapp (tfunc, targ), Tapp (tfunc', targ') ->
           (* meprintf "branch Tapp (_, _), Tapp (_, _)\n" ; *)
           if not !eager then
-            let eliminated_app1, t1' = norm_lazy t1 in
-            let eliminated_app2, t2' = norm_lazy t2 in
-            if eliminated_app1 || eliminated_app2 then
-              unify_types unifications t1' t2'
-            else
+            (*let eliminated_app1, t1' = norm_lazy t1 in
+              let eliminated_app2, t2' = norm_lazy t2 in
+              if eliminated_app1 || eliminated_app2 then
+                unify_types unifications t1' t2'
+              else
+                let unifications, tfunc = unify_types unifications tfunc tfunc' in
+                let unifications, targ = unify_types unifications targ targ' in
+                (unifications, Tapp (tfunc, targ))*)
+            try
               let unifications, tfunc = unify_types unifications tfunc tfunc' in
               let unifications, targ = unify_types unifications targ targ' in
               (unifications, Tapp (tfunc, targ))
+            with UnifFailure _ ->
+              let eliminated_app1, t1' = norm_lazy t1 in
+              let eliminated_app2, t2' = norm_lazy t2 in
+              if not (eliminated_app1 || eliminated_app2) then
+                fail (`Shape t2) t1
+              else
+                let n_unif = Tenv.cardinal unifications in
+                let unifications, t = unify_types unifications t1' t2' in
+                ( unifications
+                , if n_unif = Tenv.cardinal unifications then t1 else t )
           else
             let unifications, tfunc = unify_types unifications tfunc tfunc' in
             let unifications, targ = unify_types unifications targ targ' in
@@ -357,12 +447,15 @@ let rec unify_types unifications t1 t2 : ctyp Tenv.t * ctyp =
           meprintf "branch (Tapp (_, _), _ | _, Tapp (_, _)) when not !eager\n" ;
           meprintf "lazy extra normalisation\n" ;
           let eliminated_app1, t1' = norm_lazy t1 in
-          if eliminated_app1 then unify_types unifications t1' t2
-          else failure_typing (`Shape t2) t1
+          if eliminated_app1 then
+            let n_unif = Tenv.cardinal unifications in
+            let unifications, t = unify_types unifications t1' t2 in
+            (unifications, if n_unif = Tenv.cardinal unifications then t1 else t)
+          else fail (`Shape t2) t1
       | Tprim prim_typ, Tprim prim_typ' ->
           meprintf "branch 8\n" ;
           if prim_typ = prim_typ' then (unifications, Tprim prim_typ)
-          else (* todo better reason *) failure_typing (`Shape t2) t1
+          else (* todo better reason *) fail (`Shape t2) t1
       | Tprod t_li, Tprod t_li' ->
           meprintf "branch 9\n" ;
           let unifications, t_li =
@@ -371,20 +464,22 @@ let rec unify_types unifications t1 t2 : ctyp Tenv.t * ctyp =
           (unifications, Tprod t_li)
       | Trcd rcd, Trcd rcd' ->
           meprintf "branch 10\n" ;
-          if List.length rcd <> List.length rcd' then
-            failure_typing (`Shape t2) t1
+          if List.length rcd <> List.length rcd' then fail (`Shape t2) t1
           else
-            let rcd = sort_rcd rcd in
-            let rcd' = sort_rcd rcd' in
-            let unifications, rcd =
+            let s_rcd = sort_rcd rcd in
+            let s_rcd' = sort_rcd rcd' in
+            let n_unif = Tenv.cardinal unifications in
+            let unifications, nrcd =
               fold_left_map_unify
                 (fun unifications (field, t) (field', t') ->
-                  if field <> field' then failure_typing (`Shape t2) t1 ;
+                  if field <> field' then fail (`Shape t2) t1 ;
                   let unifications, t = unify_types unifications t t' in
                   (unifications, (field, t)) )
-                unifications rcd rcd'
+                unifications s_rcd s_rcd'
             in
-            (unifications, Trcd rcd)
+            ( unifications
+            , Trcd (if n_unif = Tenv.cardinal unifications then rcd else nrcd)
+            )
       | Tarr (targ, tbody), Tarr (targ', tbody') ->
           meprintf "branch 11\n" ;
           let unifications, targ = unify_types unifications targ targ' in
@@ -407,7 +502,7 @@ let rec unify_types unifications t1 t2 : ctyp Tenv.t * ctyp =
           (unifications, Tbind (binder, ident, kind, typ))
       | t1, t2 ->
           meprintf "failing unification because of shape\n" ;
-          failure_typing (`Shape t2) t1
+          fail (`Shape t2) t1
     in
     (* meprintf "Successfully unified %s and %s\ninto : %s.\n" (string_of_ctyp t1)
        (string_of_ctyp t2) (string_of_ctyp typ) ; *)
@@ -418,11 +513,13 @@ and unify_idents unifications ident t =
   | Some typ ->
       unify_types unifications typ t
   | None when ident.unifiable ->
-      meprintf "add unification : %s <- %s\n" (string_of_cvar ident)
-        (string_of_ctyp t) ;
-      let unifications = Tenv.add ident t unifications in
-      meprintf "unifications = %s\n" (string_of_unifications unifications) ;
-      (unifications, t)
+      if mentions_cvar ident t then failure_typing (`Shape t) (Tvar ident)
+      else (
+        meprintf "add unification : %s <- %s\n" (string_of_cvar ident)
+          (string_of_ctyp t) ;
+        let unifications = Tenv.add ident t unifications in
+        meprintf "unifications = %s\n" (string_of_unifications unifications) ;
+        (unifications, t) )
   | None -> (
     match ident.def with
     | Some {typ; _} ->
@@ -431,19 +528,24 @@ and unify_idents unifications ident t =
         failure_typing (`Shape t) (Tvar ident) )
 
 let unify_types env unifications t1 t2 =
-  if t1 == t2 then (unifications, norm () t1)
-  else
-    let t1 = norm () t1 in
-    let t2 = norm () t2 in
-    meprintf "Trying to unify \n%s\nand\n%s\n" (string_of_ctyp t1)
-      (string_of_ctyp t2) ;
-    let unifications, typ = unify_types unifications t1 t2 in
-    let typ_subst = subst unifications typ in
-    meprintf
-      "Successfully unified \n%s\nand\n%s\ninto :\n%s\nsubsts into :%s.\n"
-      (string_of_ctyp t1) (string_of_ctyp t2) (string_of_ctyp typ)
-      (string_of_ctyp typ_subst) ;
-    (unifications, subst unifications typ_subst)
+  try
+    if t1 == t2 then (unifications, norm_if_eager () t1)
+    else
+      let t1' = t1 |> norm_if_eager () |> subst unifications in
+      let t2' = t2 |> norm_if_eager () |> subst unifications in
+      meprintf "Trying to unify \n%s\nand\n%s\n" (string_of_ctyp t1')
+        (string_of_ctyp t2') ;
+      let n_unif = Tenv.cardinal unifications in
+      let unifications, typ = unify_types unifications t1' t2' in
+      let typ_subst = subst unifications typ in
+      meprintf
+        "Successfully unified \n%s\nand\n%s\ninto :\n%s\nsubsts into :%s.\n"
+        (string_of_ctyp t1') (string_of_ctyp t2') (string_of_ctyp typ)
+        (string_of_ctyp typ_subst) ;
+      ( unifications
+      , if n_unif = Tenv.cardinal unifications then t1'
+        else subst unifications typ_subst )
+  with UnifFailure (reason, t) -> failure_typing reason t
 
 let apply_unification_env {evar; cvar; svar} unifications =
   let unif_cvar cvar =
@@ -483,7 +585,7 @@ let rec type_pattern is_rec (env, unifications) pat =
       let _kind, typ_annot = type_typ env typ_annot in
       let (env, unifications), typ_pat = type_pattern (env, unifications) pat in
       meprintf "unification for pattern annotation\n" ;
-      let unifications, typ = unify_types env unifications typ_pat typ_annot in
+      let unifications, typ = unify_types env unifications typ_annot typ_pat in
       ((env, unifications), typ)
   | Pvar ident ->
       let uident = fresh_unifiable_cvar () in
@@ -538,11 +640,9 @@ let rec type_exp env unifications exp : unifications * ctyp =
         (unifications, type_prim_val prim_val)
     | Eannot (e, typ) ->
         let unifications, t_expr = type_exp env unifications e in
-        let t_expr = norm () t_expr in
         let+ typ_ = typ in
         let kind, typ = type_typ env typ_ in
-        let typ = norm () typ in
-        unify_types env unifications t_expr typ
+        unify_types env unifications typ t_expr
     | Efun (bindings, body) ->
         type_bindings env unifications bindings body
     | Eappl (func, args) ->
@@ -566,7 +666,7 @@ let rec type_exp env unifications exp : unifications * ctyp =
         (unifications, Trcd rcd)
     | Elab (exp, label) -> (
         let unifications, typ_exp = type_exp env unifications exp in
-        let typ_exp = norm () typ_exp in
+        let typ_exp = typ_exp |> norm_lazy |> snd in
         match typ_exp with
         | Trcd rcd -> (
           match List.assoc_opt label rcd with
@@ -592,7 +692,7 @@ let rec type_exp env unifications exp : unifications * ctyp =
         let+ typ' in
         let kind', typ' = type_typ env typ' in
         let unification, typ_exp = type_exp env unifications exp in
-        let typ' = norm () typ' in
+        let typ' = typ' |> norm_lazy |> snd |> expand_def in
         match typ' with
         | Tbind (Texi, ident, kind, typ_exi) ->
             let _kind = unify_kinds styp_wit kind kind_wit in
@@ -605,7 +705,7 @@ let rec type_exp env unifications exp : unifications * ctyp =
             failure_typing (`NotBinder Sexi) typ' )
     | Eopen (svar, evar, e1, e2) -> (
         let unifications, typ_e1 = type_exp env unifications e1 in
-        let typ_e1 = norm () typ_e1 in
+        let typ_e1 = typ_e1 |> norm_lazy |> snd in
         meprintf "Typing open :\nsvar=%s\nevar=%s\ne1=%s\ne1:%s\ne2=%s"
           (string_of_svar svar) (string_of_evar evar) (string_of_exp e1)
           (string_of_ctyp typ_e1) (string_of_exp e2) ;
@@ -630,23 +730,35 @@ let rec type_exp env unifications exp : unifications * ctyp =
   (unifications, t)
 
 and type_let env unifications is_rec pattern e1 e2 : unifications * ctyp =
+  meprintf "location %s%s\n\n"
+    (Locations.string_loc pattern.loc)
+    (Locations.string_of_loc pattern.loc) ;
   let (env, unifications), typ_pattern =
     type_pattern is_rec (env, unifications) pattern
   in
-  let unifications, typ_e1 = type_exp env unifications e1 in
-  let unifications, typ_e1 = unify_types env unifications typ_pattern typ_e1 in
+  let unifications, type_pattern =
+    unify_types env unifications typ_pattern (type_shape_exp env e1)
+  in
   let env = apply_unification_env env unifications in
-  let env = add_pattern_evar env pattern typ_e1 in
+  let unifications, typ_exp = type_exp env unifications e1 in
+  let unifications, typ_exp =
+    unify_types env unifications typ_pattern typ_exp
+  in
+  let env = add_pattern_evar env pattern typ_exp in
+  let env = apply_unification_env env unifications in
+  meprintf "adding %s : %s\n"
+    Print.(string (pat pattern))
+    (string_of_ctyp typ_exp) ;
   type_exp env unifications e2
 
 and type_appl env unifications func args : unifications * ctyp =
   let unifications, typ_func = type_exp env unifications func in
-  let typ_func = norm () typ_func in
+  let typ_func = typ_func |> norm_lazy |> snd in
   let rec aux (env, unifications) (typ_func : ctyp)
       (args : (styp_loc, exp) typorexp list) =
     match args with
     | [] ->
-        (unifications, norm () typ_func)
+        (unifications, typ_func)
     | arg :: args -> (
         (meprintf "applying %s to %s\n" (string_of_ctyp typ_func))
           ( match arg with
@@ -678,16 +790,11 @@ and type_appl env unifications func args : unifications * ctyp =
         | Typ typ_arg -> (
             let+ typ_arg in
             let kind_arg, typ_arg = type_typ env typ_arg in
-            let typ_func = norm () typ_func in
+            let typ_func = typ_func |> norm_lazy |> snd |> expand_def in
             match typ_func with
             | Tbind (Tall, ident, kind, typ_body) ->
-                let new_cvar =
-                  fresh_cvar env ~def:{scope= -1; typ= typ_arg}
-                    (svar ident.name)
-                in
-                let env = add_cvar env new_cvar kind in
                 let typ_body = refresh_cvars env typ_body in
-                let typ_body = subst_typ ident (Tvar new_cvar) typ_body in
+                let typ_body = subst_typ ident typ_arg typ_body in
                 aux (env, unifications) typ_body args
             | _ ->
                 failure_typing (`NotBinder Sall) typ_func ) )
@@ -722,7 +829,7 @@ and type_binding env unifications binding =
       ( (fun typ_body -> Tarr (typ_pat, typ_body))
       , add_pattern_evar env pattern typ_pat )
 
-let rec type_shape_exp env exp =
+and type_shape_exp env exp =
   let+ exp in
   match exp with
   | Efun (bindings, body) ->
@@ -733,12 +840,14 @@ let rec type_shape_exp env exp =
         | binding :: bindings -> (
           match binding with
           | Exp pattern ->
-              (* let (_env, _unif), typ_pattern =
-                   type_pattern true (env, Tenv.empty) pattern
-                 in *)
-              Tarr (Tvar (fresh_unifiable_cvar ()), aux env bindings)
+              let (_env, _unif), typ_pattern =
+                type_pattern true (env, Tenv.empty) pattern
+              in
+              Tarr (typ_pattern, aux env bindings)
           | Typ (svar, kind) ->
               let cvar = fresh_cvar env svar in
+              let env = add_cvar env cvar kind in
+              let env = add_svar env svar cvar in
               Tbind (Tall, cvar, kind, aux env bindings) )
       in
       aux env bindings
@@ -758,6 +867,19 @@ let type_shape_exp env exp =
 let norm_when_eager =
   spec_true "--loose" "Do not force toplevel normalization in eager mode"
 
+let rec typed_decl_of_pattern pat typ =
+  let+ patobj = pat in
+  match (patobj, typ) with
+  | Pvar evar, typ ->
+      [Glet (evar, typ)]
+  | Ptyp (pat, _), typ ->
+      typed_decl_of_pattern pat typ
+  | Pprod pats, Tprod typs ->
+      List.concat (List.map2 typed_decl_of_pattern pats typs)
+  | _ ->
+      let m, typ = norm_lazy typ in
+      if m then typed_decl_of_pattern pat typ else assert false
+
 let type_dlet env unifications is_rec pattern exp =
   meprintf "location %s%s\n\n"
     (Locations.string_loc pattern.loc)
@@ -771,7 +893,7 @@ let type_dlet env unifications is_rec pattern exp =
   let env = apply_unification_env env unifications in
   let unifications, typ_exp = type_exp env unifications exp in
   let unifications, typ_exp =
-    unify_types env unifications typ_exp typ_pattern
+    unify_types env unifications typ_pattern typ_exp
   in
   meprintf "Hey there, %s\n" (string_of_ctyp typ_exp) ;
   let env = add_pattern_evar env pattern typ_exp in
@@ -779,9 +901,13 @@ let type_dlet env unifications is_rec pattern exp =
   meprintf "adding %s : %s\n"
     Print.(string (pat pattern))
     (string_of_ctyp typ_exp) ;
-  ((env, unifications), Glet (pattern, typ_exp))
+  let typ_exp =
+    if !norm_when_eager then typ_exp |> norm_if_eager () else typ_exp
+  in
+  ((env, unifications), typed_decl_of_pattern pattern typ_exp)
 
-let type_decl (env, unifications) decl : (env * unifications) * typed_decl =
+let type_decl (env, unifications) decl : (env * unifications) * typed_decl list
+    =
   let+ decl in
   match decl with
   | Dlet (is_rec, pattern, exp) ->
@@ -791,19 +917,19 @@ let type_decl (env, unifications) decl : (env * unifications) * typed_decl =
       let env = add_svar env ident cvar in
       let env = add_cvar env cvar kind in
       let decl = Gtyp (cvar, Typ kind) in
-      ((env, unifications), decl)
+      ((env, unifications), [decl])
   | Dtyp (svar, Exp typ) ->
       let+ typ in
       let kind, typ = type_typ env typ in
-      let typ = norm () typ in
       let cvar = fresh_cvar env ~def:{scope= -1; typ} svar in
       let env = add_svar env svar cvar in
       let env = add_cvar env cvar kind in
+      let typ = if !norm_when_eager then typ |> norm_if_eager () else typ in
       let decl = Gtyp (cvar, Exp (kind, typ)) in
-      ((env, unifications), decl)
+      ((env, unifications), [decl])
   | Dopen (svar, evar, e1) -> (
       let unifications, typ_e1 = type_exp env unifications e1 in
-      let typ_e1 = norm () typ_e1 in
+      let typ_e1 = typ_e1 |> norm_lazy |> snd in
       meprintf "Typing Dopen :\nsvar=%s\nevar=%s\ne1=%s\ne1:%s\n"
         (string_of_svar svar) (string_of_evar evar) (string_of_exp e1)
         (string_of_ctyp typ_e1) ;
@@ -815,7 +941,7 @@ let type_decl (env, unifications) decl : (env * unifications) * typed_decl =
           let typ_exi = subst_typ ident_exi (Tvar cvar) typ_exi in
           let env' = add_evar env' evar typ_exi in
           meprintf "Typ exi = %s\n" (string_of_ctyp typ_exi) ;
-          ((env', unifications), Gopen (cvar, evar, typ_exi))
+          ((env', unifications), [Gopen (cvar, evar, typ_exi)])
       | _ ->
           failwith
             (sprintf "unpacking something that is not existantial = %s : %s"
@@ -823,6 +949,7 @@ let type_decl (env, unifications) decl : (env * unifications) * typed_decl =
 
 let type_program env p : env * typed_decl list =
   let (env, _), li = List.fold_left_map type_decl (env, Tenv.empty) p in
+  let li = List.concat li in
   (env, li)
 
 let type_decl env decl =

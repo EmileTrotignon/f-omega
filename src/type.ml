@@ -10,6 +10,8 @@ let compare_cvar u v =
   let uv = Int.compare u.id v.id in
   if uv = 0 then String.compare u.name v.name else uv
 
+let eq_cvar c1 c2 = c1.id = c2.id && c1.name = c2.name
+
 module Tenv = struct
   include Map.Make (struct
     type t = cvar
@@ -108,7 +110,8 @@ and subst su (t : ctyp) : ctyp =
     | Tvar ident -> (
       match Tenv.find_opt ident su with
       | Some typ ->
-          typ
+          let su = Tenv.remove ident su in
+          subst su typ
       | None -> (
         match ident.def with
         | Some {typ; _} ->
@@ -137,7 +140,7 @@ and subst_typ a ta t =
 let subst su t =
   let t' = subst su t in
   (* Print.(
-     meprintf "substitution : %s became %s\n"
+     meprintf "substitution : \n%s\nbecame\n%s\n"
        (string (typ cvar t))
        (string (typ cvar t'))) ; *)
   t'
@@ -150,32 +153,16 @@ let _lazy =
   spec_add "--lazy" (Arg.Clear eager)
     "Lazy definition expansion and reduction to head normal forms"
 
-type rec_env = C of (rec_env * cvar Tenv.t * ctyp) Tenv.t
-
-let fresh_cvar env svar =
-  let rec pick_id id =
-    let candidate = cvar ~id svar in
-    if not @@ Tenv.mem candidate env then candidate else pick_id (id + 1)
-  in
-  pick_id 0
-
-let refresh_cvar env cvar = fresh_cvar env (svar cvar.name)
-
-let refresh_cvar_rec_env env cvar =
-  let (C env) = env in
-  fresh_cvar env (svar cvar.name)
-
 let rec norm_lazy t =
   match t with
   | Tapp (tfunc, targ) -> (
       let _mfunc, tfunc = norm_lazy tfunc in
       match tfunc with
       | Tvar {def= Some {typ; _}; _} ->
-          let m, t' = norm_lazy (Tapp (typ, targ)) in
-          if m then (true, t') else (false, t)
+          norm_lazy (Tapp (typ, targ))
       | Tbind (Tlam, ident, kind, typ) ->
           let typ = subst_typ ident targ typ in
-          let _mtyp, typ = norm_lazy typ in
+          (* let _mtyp, typ = norm_lazy typ in *)
           (true, typ)
       | _ ->
           (false, Tapp (tfunc, targ)) )
@@ -219,8 +206,8 @@ let rec norm ?(expand_defs = false) t =
 
 let norm t =
   let t' = norm t in
-  Print.(
-    meprintf "normalizing :\n%s\ninto :\n%s\n"
-      (string @@ typ cvar t)
-      (string @@ typ cvar t')) ;
+  (* Print.(
+     meprintf "normalizing :\n%s\ninto :\n%s\n"
+       (string @@ typ cvar t)
+       (string @@ typ cvar t')) ; *)
   t'

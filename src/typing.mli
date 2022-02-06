@@ -22,7 +22,7 @@ val find_svar : env -> svar -> cvar
 val find_cvar : env -> cvar -> kind
 *)
 
-val type_decl : env  -> decl -> env * typed_decl
+(*val type_decl : env  -> decl -> env * typed_decl list*)
 val type_program : env -> decl list -> env * typed_decl list
 
 val initial_env : env
