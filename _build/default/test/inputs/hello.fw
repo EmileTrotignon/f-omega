@@ -1,2 +1,0 @@
-(** Simplest program *)
-let hello = "Hello!"

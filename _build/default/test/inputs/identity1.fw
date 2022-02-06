@@ -1,6 +1,0 @@
-(* the identity function *)
-let id = fun [a] (x : a) => x
-
-(* checking type constraints *)
-let id = (id : all a. a -> a)
-

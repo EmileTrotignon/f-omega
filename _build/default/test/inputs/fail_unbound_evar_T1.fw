@@ -1,3 +1,0 @@
-#option "fail"
-  
-let _ = x

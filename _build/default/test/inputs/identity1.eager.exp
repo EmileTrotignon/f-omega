@@ -1,2 +1,0 @@
-val id : all a. a -> a
-val id : all a. a -> a

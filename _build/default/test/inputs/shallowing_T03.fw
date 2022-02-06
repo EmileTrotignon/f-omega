@@ -1,4 +1,0 @@
-type a 
-type b = all a. a -> a
-type a
-type a  

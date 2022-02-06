@@ -1,7 +1,0 @@
-val neg : int -> int
-val not : bool -> bool
-val pneg : exi a. a -> a
-val pnot : exi a. a -> a
-val f : (exi a. a -> a) -> (exi a1. a1 -> a1)
-val fneg : exi a1. a1 -> a1
-val fnot : exi a1. a1 -> a1
