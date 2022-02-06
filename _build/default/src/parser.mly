@@ -250,7 +250,7 @@ directives:
 |  { [] }
 
 typed_decl:
-| VAL x = evar COLON t = typ { Glet (dummy_located (Pvar x), t) }
+| VAL x = evar COLON t = typ { Glet (x, t) }
 | VAL LANGLE a = tvar COMMA x = evar RANGLE EQUAL t = typ
     { Gopen (a, x, t) }
 | TYPE a = tvar k = kind_option { Gtyp (a, Typ k) }

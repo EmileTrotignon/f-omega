@@ -38,7 +38,11 @@ val norm : ctyp -> ctyp
 val expand_def : ctyp -> ctyp
 
 val norm_lazy : ctyp -> bool * ctyp
-(** [norm_lazy t] returns a type equivalent to [t] but in normal form. *)
+(** [norm_lazy t] is the pair [m, t'] such that :
+   - [t'] is equivalent to [t].
+   - if [t] is of shape [Tapp(Tlam _, _)] then it can be reduced, and [t'] is.
+   - [m] is true if a reduction ws performed. This information is used by the
+     callers to avoid infinite loops. *)
 
 val eq_typ : ctyp -> ctyp -> bool
 (** [eq_typ t1 t2] just checks where [t1] and [t2] are equal. It has no

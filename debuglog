@@ -1,62 +1,15 @@
-lazy normalizing :
-unit
-into :
-unit
-normalizing :
-unit
-into :
-unit
-lazy normalizing :
-bool
-into :
-bool
-normalizing :
-bool
-into :
-bool
-lazy normalizing :
-int
-into :
-int
-normalizing :
-int
-into :
-int
-lazy normalizing :
-string
-into :
-string
-normalizing :
-string
-into :
-string
-lazy normalizing :
-all #. #
-into :
-all #. #
-normalizing :
-all #. #
-into :
-all #. #
 location Characters -1--1:
 <dummy loc>
 
 adding evar for pattern type
 Adding magic : %unif in env.evar.
 unification for pattern annotation
-lazy normalizing :
-%unif
-into :
-%unif
-lazy normalizing :
-all #. #
-into :
-all #. #
 Trying to unify 
 %unif
 and
 all #. #
 branch 3
+Mentions : Type all #. # doesn't mentions %unif
 add unification : %unif <- all #. #
 unifications =  (%unif <== all #. #)
 Successfully unified 
@@ -68,19 +21,12 @@ all #. #
 substs into :all #. #.
 typing pattern : magic : all #. # has type all #. #
 type_exp_func : magic type to %unif\1
-lazy normalizing :
-all #. #
-into :
-all #. #
-lazy normalizing :
-%unif\1
-into :
-%unif\1
 Trying to unify 
 all #. #
 and
 %unif\1
 branch 4
+Mentions : Type all #. # doesn't mentions %unif\1
 add unification : %unif\1 <- all #. #
 unifications =  (%unif <== all #. #) (%unif\1 <== all #. #)
 Successfully unified 
@@ -94,14 +40,6 @@ exp typing : magic
 - exp :
 magic
 - has type :
-all #. #
-lazy normalizing :
-all #. #
-into :
-all #. #
-lazy normalizing :
-all #. #
-into :
 all #. #
 Trying to unify 
 all #. #
@@ -121,26 +59,19 @@ Hey there, all #. #
 adding evar for add_pattern_evar : magic : all #. #
 Adding magic : all #. # in env.evar.
 adding magic : all #. # : all #. #
-location File "test.fw", line 1, characters 8-9:
+location File "test.fw", line 1, characters 9-10:
 f
 
 adding evar for pattern type
 Adding f : %unif\2 in env.evar.
 typing pattern : f has type %unif\2
 type_exp_func : let a = f 1 0 in f type to %unif\3
-normalizing :
-%unif\2
-into :
-%unif\2
-normalizing :
-%unif\3
-into :
-%unif\3
 Trying to unify 
 %unif\2
 and
 %unif\3
 branch 3
+Mentions : Type %unif\3 doesn't mentions %unif\2
 add unification : %unif\2 <- %unif\3
 unifications =  (%unif\2 <== %unif\3)
 Successfully unified 
@@ -151,16 +82,30 @@ into :
 %unif\3
 substs into :%unif\3.
 exp typing : let a = f 1 0 in f
+location File "test.fw", line 2, characters 8-9:
+a
+
 typing pattern : a has type %unif\4
+Trying to unify 
+%unif\4
+and
+%unif\5
+branch 3
+Mentions : Type %unif\5 doesn't mentions %unif\4
+add unification : %unif\4 <- %unif\5
+unifications =  (%unif\2 <== %unif\3) (%unif\4 <== %unif\5)
+Successfully unified 
+%unif\4
+and
+%unif\5
+into :
+%unif\5
+substs into :%unif\5.
 exp typing : f 1 0
 exp typing : f
 - exp :
 f
 - has type :
-%unif\3
-normalizing :
-%unif\3
-into :
 %unif\3
 applying %unif\3 to 1
 exp typing : 1
@@ -173,29 +118,22 @@ type of function is :
 %unif\3
 and type of argument is :
 int
-normalizing :
-%unif\3
-into :
-%unif\3
-normalizing :
-int -> %unif\5
-into :
-int -> %unif\5
 Trying to unify 
 %unif\3
 and
-int -> %unif\5
+int -> %unif\6
 branch 3
-add unification : %unif\3 <- int -> %unif\5
-unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\5)
+Mentions : Type int -> %unif\6 doesn't mentions %unif\3
+add unification : %unif\3 <- int -> %unif\6
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\6) (%unif\4 <== %unif\5)
 Successfully unified 
 %unif\3
 and
-int -> %unif\5
+int -> %unif\6
 into :
-int -> %unif\5
-substs into :int -> %unif\5.
-applying %unif\5 to 0
+int -> %unif\6
+substs into :int -> %unif\6.
+applying %unif\6 to 0
 exp typing : 0
 - exp :
 0
@@ -203,95 +141,190 @@ exp typing : 0
 int
 unification for exp func appl. function is : f, arg is 0
 type of function is :
-%unif\5
+%unif\6
 and type of argument is :
 int
-normalizing :
-%unif\5
-into :
-%unif\5
-normalizing :
-int -> %unif\6
-into :
-int -> %unif\6
 Trying to unify 
-%unif\5
+%unif\6
 and
-int -> %unif\6
+int -> %unif\7
 branch 3
-add unification : %unif\5 <- int -> %unif\6
-unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\5) (%unif\5 <== int -> %unif\6)
+Mentions : Type int -> %unif\7 doesn't mentions %unif\6
+add unification : %unif\6 <- int -> %unif\7
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\6) (%unif\4 <== %unif\5) (%unif\6 <== int -> %unif\7)
 Successfully unified 
-%unif\5
+%unif\6
 and
-int -> %unif\6
+int -> %unif\7
 into :
-int -> %unif\6
-substs into :int -> %unif\6.
-normalizing :
-%unif\6
-into :
-%unif\6
+int -> %unif\7
+substs into :int -> %unif\7.
 - exp :
 f 1 0
 - has type :
-%unif\6
-normalizing :
-%unif\4
-into :
-%unif\4
-normalizing :
-%unif\6
-into :
-%unif\6
+%unif\7
 Trying to unify 
-%unif\4
+%unif\7
 and
-%unif\6
+%unif\5
 branch 3
-add unification : %unif\4 <- %unif\6
-unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\5) (%unif\4 <== %unif\6) (%unif\5 <== int -> %unif\6)
+Mentions : Type %unif\5 doesn't mentions %unif\7
+add unification : %unif\7 <- %unif\5
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\6) (%unif\4 <== %unif\5) (%unif\6 <== int -> %unif\7) (%unif\7 <== %unif\5)
 Successfully unified 
-%unif\4
+%unif\7
 and
-%unif\6
+%unif\5
 into :
-%unif\6
-substs into :%unif\6.
-adding evar for add_pattern_evar : a : %unif\6
-Adding a : %unif\6 in env.evar.
+%unif\5
+substs into :%unif\5.
+adding evar for add_pattern_evar : a : %unif\5
+Adding a : %unif\5 in env.evar.
+adding a : %unif\5
 exp typing : f
 - exp :
 f
 - has type :
-int -> %unif\5
+int -> int -> %unif\5
 - exp :
 let a = f 1 0 in f
 - has type :
-int -> %unif\5
-normalizing :
-int -> %unif\5
-into :
-int -> %unif\5
-normalizing :
-%unif\2
-into :
-%unif\2
+int -> int -> %unif\5
 Trying to unify 
-int -> %unif\5
+int -> int -> %unif\5
 and
-%unif\2
-branch 4
-branch 3
+int -> int -> %unif\5
 branch 11
+branch 8
+branch 11
+branch 8
 Successfully unified 
-int -> %unif\5
+int -> int -> %unif\5
 and
-%unif\2
+int -> int -> %unif\5
 into :
-int -> %unif\5
-substs into :int -> int -> %unif\6.
-Hey there, int -> int -> %unif\6
-adding evar for add_pattern_evar : f : int -> int -> %unif\6
-Adding f : int -> int -> %unif\6 in env.evar.
-adding f : int -> int -> %unif\6
+int -> int -> %unif\5
+substs into :int -> int -> %unif\5.
+Hey there, int -> int -> %unif\5
+adding evar for add_pattern_evar : f : int -> int -> %unif\5
+Adding f : int -> int -> %unif\5 in env.evar.
+adding f : int -> int -> %unif\5
+location File "test.fw", line 5, characters 8-9:
+f
+
+adding evar for pattern type
+Adding f : %unif\8 in env.evar.
+typing pattern : f has type %unif\8
+type_exp_func : fun [A] => (let a = f [int] 1 in f) type to all A. %unif\9
+Trying to unify 
+%unif\8
+and
+all A. %unif\9
+branch 3
+Mentions : Type all A. %unif\9 doesn't mentions %unif\8
+add unification : %unif\8 <- all A. %unif\9
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\6) (%unif\4 <== %unif\5) (%unif\6 <== int -> %unif\7) (%unif\7 <== %unif\5) (%unif\8 <== all A. %unif\9)
+Successfully unified 
+%unif\8
+and
+all A. %unif\9
+into :
+all A. %unif\9
+substs into :all A. %unif\9.
+exp typing : fun [A] => (let a = f [int] 1 in f)
+exp typing : let a = f [int] 1 in f
+location File "test.fw", line 6, characters 8-9:
+a
+
+typing pattern : a has type %unif\10
+Trying to unify 
+%unif\10
+and
+%unif\11
+branch 3
+Mentions : Type %unif\11 doesn't mentions %unif\10
+add unification : %unif\10 <- %unif\11
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\6) (%unif\4 <== %unif\5) (%unif\6 <== int -> %unif\7) (%unif\7 <== %unif\5) (%unif\8 <== all A. %unif\9) (%unif\10 <== %unif\11)
+Successfully unified 
+%unif\10
+and
+%unif\11
+into :
+%unif\11
+substs into :%unif\11.
+exp typing : f [int] 1
+exp typing : f
+- exp :
+f
+- has type :
+all A. %unif\9
+applying all A. %unif\9 to int
+refreshed %unif\9 is %unif\9
+applying %unif\9 to 1
+exp typing : 1
+- exp :
+1
+- has type :
+int
+unification for exp func appl. function is : f, arg is 1
+type of function is :
+%unif\9
+and type of argument is :
+int
+Trying to unify 
+%unif\9
+and
+int -> %unif\12
+branch 3
+Mentions : Type int -> %unif\12 doesn't mentions %unif\9
+add unification : %unif\9 <- int -> %unif\12
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\6) (%unif\4 <== %unif\5) (%unif\6 <== int -> %unif\7) (%unif\7 <== %unif\5) (%unif\8 <== all A. %unif\9) (%unif\9 <== int -> %unif\12) (%unif\10 <== %unif\11)
+Successfully unified 
+%unif\9
+and
+int -> %unif\12
+into :
+int -> %unif\12
+substs into :int -> %unif\12.
+- exp :
+f [int] 1
+- has type :
+%unif\12
+Trying to unify 
+%unif\12
+and
+%unif\11
+branch 3
+Mentions : Type %unif\11 doesn't mentions %unif\12
+add unification : %unif\12 <- %unif\11
+unifications =  (%unif\2 <== %unif\3) (%unif\3 <== int -> %unif\6) (%unif\4 <== %unif\5) (%unif\6 <== int -> %unif\7) (%unif\7 <== %unif\5) (%unif\8 <== all A. %unif\9) (%unif\9 <== int -> %unif\12) (%unif\10 <== %unif\11) (%unif\12 <== %unif\11)
+Successfully unified 
+%unif\12
+and
+%unif\11
+into :
+%unif\11
+substs into :%unif\11.
+adding evar for add_pattern_evar : a : %unif\11
+Adding a : %unif\11 in env.evar.
+adding a : %unif\11
+exp typing : f
+- exp :
+f
+- has type :
+all A. int -> %unif\11
+- exp :
+let a = f [int] 1 in f
+- has type :
+all A. int -> %unif\11
+- exp :
+fun [A] => (let a = f [int] 1 in f)
+- has type :
+all A. all A. int -> %unif\11
+Trying to unify 
+all A. all A. int -> %unif\11
+and
+all A. int -> %unif\11
+branch 12
+Subst : all A. int -> %unif\11 became all A. int -> %unif\11
+failing unification because of shape

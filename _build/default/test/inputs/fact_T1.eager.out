@@ -1,1 +1,1 @@
-val fact : int -> int : int -> int
+val fact : int -> int

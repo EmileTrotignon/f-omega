@@ -1,27 +1,26 @@
 val fix : all A. (A -> A) -> A -> A
-type list_ :: Type -> Type -> Type =
-  lam A. lam mlist. sum (unit) (A * mlist)
-type list :: Type -> Type = lam A. fix (lam mlist. sum (unit) (A * mlist))
-val nil : all A. fix (lam mlist. sum (unit) (A * mlist))
+type list_ :: Type -> Type -> Type = lam A. lam list. sum (unit) (A * list)
+type list :: Type -> Type = lam A. fix (lam list. sum (unit) (A * list))
+val nil : all A. fix (lam list1. sum (unit) (A * list1))
 val cons :
   all A. A ->
-    fix (lam mlist. sum (unit) (A * mlist)) ->
-    fix (lam mlist. sum (unit) (A * mlist))
+    fix (lam list1. sum (unit) (A * list1)) ->
+    fix (lam list1. sum (unit) (A * list1))
 val case_list :
-  all A. all B. fix (lam mlist. sum (unit) (A * mlist)) -> B ->
-    ((A * fix (lam mlist. sum (unit) (A * mlist))) -> B) -> B
+  all A. all B. fix (lam list1. sum (unit) (A * list1)) -> B ->
+    ((A * fix (lam list1. sum (unit) (A * list1))) -> B) -> B
 val map :
   all A. all B.
     ((A -> B) ->
-       fix (lam mlist. sum (unit) (A * mlist)) ->
-       fix (lam mlist. sum (unit) (B * mlist))) -> (A -> B) ->
-    fix (lam mlist. sum (unit) (A * mlist)) ->
-    fix (lam mlist. sum (unit) (B * mlist))
+       fix (lam list1. sum (unit) (A * list1)) ->
+       fix (lam list1. sum (unit) (B * list1))) -> (A -> B) ->
+    fix (lam list1. sum (unit) (A * list1)) ->
+    fix (lam list1. sum (unit) (B * list1))
 val map :
   all A. all B. (A -> B) ->
-    fix (lam mlist. sum (unit) (A * mlist)) ->
-    fix (lam mlist. sum (unit) (B * mlist))
+    fix (lam list1. sum (unit) (A * list1)) ->
+    fix (lam list1. sum (unit) (B * list1))
 val map :
   all A. all B. (A -> B) ->
-    fix (lam mlist. sum (unit) (A * mlist)) ->
-    fix (lam mlist. sum (unit) (B * mlist))
+    fix (lam list1. sum (unit) (A * list1)) ->
+    fix (lam list1. sum (unit) (B * list1))

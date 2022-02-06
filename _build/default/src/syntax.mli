@@ -175,7 +175,7 @@ and ctyp = cvar typ
 
 type 'a typed_decl_ =
   | Gtyp of 'a * (kind, kind * 'a typ) typorexp
-  | Glet of pat * 'a typ
+  | Glet of evar * 'a typ
   | Gopen of 'a * evar * 'a typ
 
 type typed_decl = cvar typed_decl_

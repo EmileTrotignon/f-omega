@@ -1,8 +1,8 @@
 type one = int
 type two = int
-val x : one : int
+val x : int
 val f : int -> int
-val y : two : int
+val y : int
 val g : int -> int
 val fx : int
 val fy : int

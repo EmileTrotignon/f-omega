@@ -4,24 +4,8 @@
 (** Fix point *)
 let rec fix [A] (f : A -> A) (x : A) : A = f (fix [A] f x)
 
-(*
-let rec fix = let x = 3 in (fun [A] (f : A -> A) (x : A) => (f (fix [A] f x) : A)
 
-fix:'unif1
-
-TFun(Typ A, Exp A -> A, Exp a,
-{fix:unif1, A:Kind, f: A-> A, x:A }
- f
-unify (typ (fix [A] f x)) A
-
-match fix with
-| Tbind or fix :unfi1
-
-)
-
-*)
-
-type list_ A = lam mlist. sum unit (A * mlist)
+type list_ A = lam list. sum unit (A * list)
 type list A = fix (list_ A)
 
 (* list shoud be equal to : fix ((lam A. lam list. sum (unit) (A * list)) A) *)
@@ -57,25 +41,3 @@ let map [A] [B] =
       (nil[B])
       (fun (xt : A * list A) => cons [B] (f xt.1) (map f xt.2)) in
   map
-
-(*
-
-unify
-(F = lam mlist. sum (unit) (A * mlist))
-  (fix (F = lam mlist. sum (unit) (A * mlist)))
-with
-sum (unit) (B = A * fix ((lam A. lam mlist. sum (unit) (A * mlist)) A))
-
-
-unify
-sum (unit) (A * fix (F = lam mlist. sum (unit) (A * mlist)))
-with
-sum (unit) (B = A * fix ((lam A. lam mlist. sum (unit) (A * mlist)) A))
-
-unify
-(A * fix (lam mlist. sum (unit) (A * mlist)))
-with
-(A * fix (lam mlist. sum (unit) (A * mlist)))
-
-
-*)

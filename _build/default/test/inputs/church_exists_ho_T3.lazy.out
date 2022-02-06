@@ -4,6 +4,4 @@ type Exi :: (Type -> Type) -> Type =
   lam F :: Type -> Type. all A. (all B. F B -> A) -> A
 val pack :
   all F :: Type -> Type. all A. F A -> (all C. (all B. F B -> C) -> C)
-val unpack :
-  all F :: Type -> Type. (all A. (all B. F B -> A) -> A) ->
-    (all B. (all A. F A -> B) -> B)
+val unpack : all F :: Type -> Type. Exi F -> (all B. (all A. F A -> B) -> B)

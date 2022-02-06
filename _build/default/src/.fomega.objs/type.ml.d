@@ -1,1 +1,1 @@
-src/type.ml: Arg Int List Map Mlog Print String Syntax Util
+src/type.ml: Arg Int List Map String Syntax Util

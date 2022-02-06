@@ -15,7 +15,7 @@
 (library
   (name fomega)
   (flags (:standard -w A-4-44-32-42 -g))
-  (modules util locations syntax  error lexer parser print type typing mlog)
+  (modules util locations syntax  error lexer parser print type typing)
   (libraries pprint)
   (wrapped false)
   )

@@ -18,63 +18,9 @@ type times ::
     P (Q S) Z
 type square ::
   ((Type -> Type) -> Type -> Type) -> (Type -> Type) -> Type -> Type =
-  lam P :: (Type -> Type) -> Type -> Type.
-  (lam P :: (Type -> Type) -> Type -> Type.
-     lam Q :: (Type -> Type) -> Type -> Type. lam S :: Type -> Type.
-     lam Z.
-     P (Q S) Z) P P
-type nat2 :: (Type -> Type) -> Type -> Type =
-  lam S :: Type -> Type.
-    lam Z.
-    (lam S :: Type -> Type. lam Z. S Z) S
-      ((lam S :: Type -> Type. lam Z. S Z) S Z)
-type nat4 :: (Type -> Type) -> Type -> Type =
-  lam S :: Type -> Type.
-    lam Z.
-    (lam S :: Type -> Type. lam Z. S (S Z))
-      ((lam S :: Type -> Type. lam Z. S (S Z)) S) Z
+  lam P :: (Type -> Type) -> Type -> Type. times P P
+type nat2 :: (Type -> Type) -> Type -> Type = add nat1 nat1
+type nat4 :: (Type -> Type) -> Type -> Type = square nat2
 type z = int
-type s :: Type -> Type = lam W. W * W
-val check :
-  ((lam W. W * W)
-     ((lam W. W * W)
-        ((lam W. W * W)
-           ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam W. W * W)
-              int))) *
-   (lam W. W * W)
-     ((lam W. W * W)
-        ((lam W. W * W)
-           ((lam S :: Type -> Type. lam Z. S (S (S (S Z)))) (lam W. W * W)
-              int)))) ->
-    (((((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int))))) *
-      (((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))))) *
-     ((((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int))))) *
-      (((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int))))))) *
-    (((((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int))))) *
-      (((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))))) *
-     ((((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int))))) *
-      (((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
-       ((((int * int) * (int * int)) * ((int * int) * (int * int))) *
-        (((int * int) * (int * int)) * ((int * int) * (int * int)))))))
+type s :: Type -> Type = lam a. a * a
+val check : times nat2 nat4 s z -> times nat4 nat2 s z

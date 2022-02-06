@@ -6130,7 +6130,7 @@ let _menhir_action_178 =
     in
     
 # 253 "src/parser.mly"
-                             ( Glet (dummy_located (Pvar x), t) )
+                             ( Glet (x, t) )
 # 6135 "src/parser.ml"
     
 
@@ -6150,7 +6150,7 @@ let _menhir_action_179 =
     in
     
 # 253 "src/parser.mly"
-                             ( Glet (dummy_located (Pvar x), t) )
+                             ( Glet (x, t) )
 # 6155 "src/parser.ml"
     
 

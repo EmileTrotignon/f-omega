@@ -1,3 +1,7 @@
-let rec f =
+ let rec f =
     let a = f 1 0 in
+    f
+
+let rec f [A] =
+    let a = f [int] 1 in
     f

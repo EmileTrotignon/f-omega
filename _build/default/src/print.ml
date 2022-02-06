@@ -1,6 +1,8 @@
 open Syntax
 
-let debugging_print= true
+let debugging_print= false
+(** This flag turns on a more complex printer for cvars, that gives more
+    information. Usefull during debugging. *)
 
 module S =
   struct
@@ -317,7 +319,7 @@ let decl (d : decl_) =
 
 let typed_decl tvar d =
   match d with
-  | Glet (x, t) -> val_xk_t "val" (pat x) P.colon (typ tvar t)
+  | Glet (x, t) -> val_xk_t "val" (evar x) P.colon (typ tvar t)
   | Gtyp (a, Typ k) -> !^ "type" ^^^ (tbind (tvar a) k)
   | Gtyp (a, Exp (k, t)) ->
      val_xk_t "type" (tbind (tvar a) k)

@@ -1,6 +1,8 @@
 open Syntax
 
 let debugging_print= false
+(** This flag turns on a more complex printer for cvars, that gives more
+    information. Usefull during debugging. *)
 
 module S =
   struct

@@ -7,5 +7,5 @@ type string1 = int1
 val x : int
 val b2 : string
 val b21 : string
-val f : int1 -> int1
+val f : string1 -> string1
 val g : int1 -> int1

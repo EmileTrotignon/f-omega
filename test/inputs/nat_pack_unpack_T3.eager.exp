@@ -7,8 +7,6 @@ type abs_nat =
   exi t. {zero : t; succ : t -> t; fold : t -> (all B. B -> (B -> B) -> B)}
 val abs_nat_church :
   exi t. {zero : t; succ : t -> t; fold : t -> (all B. B -> (B -> B) -> B)}
-
-
 val prog :
   (exi t. {zero : t; succ : t -> t; fold : t -> (all B. B -> (B -> B) -> B)}) ->
     unit

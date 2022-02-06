@@ -412,7 +412,7 @@ and (xv_var, xv_typed_decl, xv_type_lam, xv_typ_prod, xv_typ_field, xv_typ_atom,
    : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 253 "src/parser.mly"
-                             ( Glet (dummy_located (Pvar x), t) )
+                             ( Glet (x, t) )
 # 417 "src/parser__mock.ml.mock"
      : 'tv_typed_decl) in
   let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((

@@ -26,7 +26,7 @@ type nat2 :: (Type -> Type) -> Type -> Type =
 type nat4 :: (Type -> Type) -> Type -> Type =
   lam S :: Type -> Type. lam Z. S (S (S (S Z)))
 type z = int
-type s :: Type -> Type = lam W. W * W
+type s :: Type -> Type = lam a. a * a
 val check :
   ((((((((int * int) * (int * int)) * ((int * int) * (int * int))) *
        (((int * int) * (int * int)) * ((int * int) * (int * int)))) *
